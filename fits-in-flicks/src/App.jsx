@@ -1,35 +1,36 @@
 import { useState } from "react";
 import reactLogo from "./assets/react.svg";
 import viteLogo from "/vite.svg";
-import "./App.css";
+//import "./App.css";
+import { PostCard, PostList } from "./components";
 
 function App() {
-   const [count, setCount] = useState(0);
+   const posts = [
+      {
+         id: "p1",
+         userId: "u1",
+         username: "maida",
 
-   return (
-      <>
-         <div>
-            <a href="https://vite.dev" target="_blank">
-               <img src={viteLogo} className="logo" alt="Vite logo" />
-            </a>
-            <a href="https://react.dev" target="_blank">
-               <img src={reactLogo} className="logo react" alt="React logo" />
-            </a>
-         </div>
-         <h1>Vite + React</h1>
-         <div className="card">
-            <button onClick={() => setCount((count) => count + 1)}>
-               count is {count}
-            </button>
-            <p>
-               Edit <code>src/App.jsx</code> and save to test HMR
-            </p>
-         </div>
-         <p className="read-the-docs">
-            Click on the Vite and React logos to learn more
-         </p>
-      </>
-   );
+         title: "Mean Girls Woo",
+         description:
+            "Look at this chic outfit from Mean Girls!!Look at this chic outfit from Mean Girls!!Look at this chic outfit from Mean Girls!!Look at this chic outfit from Mean Girls!!Look at this chic outfit from Mean Girls!!Look at this chic outfit from Mean Girls!!Look at this chic outfit from Mean Girls!!",
+         periodTag: "2000s",
+         genreTag: "Comedy",
+         commentCount: 3,
+      },
+      {
+         id: "p2",
+         userId: "u2",
+         username: "rawda",
+
+         title: "Vamps Are Cool",
+         description: "Look at these victorian style fits from Dracula :O",
+         periodTag: "2000s",
+         genreTag: "Action",
+         commentCount: 5,
+      },
+   ];
+   return <PostList posts={posts} />;
 }
 
 export default App;
