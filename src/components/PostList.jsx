@@ -16,7 +16,7 @@ function PostList({ posts }) {
                username={post.username}
                description={post.description}
                periodTag={post.periodTag}
-               genreTag={post.genreTag}
+               genreTags={post.genreTags}
                commentCount={post.commentCount}
             />
          ))}

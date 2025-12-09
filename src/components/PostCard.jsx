@@ -5,32 +5,48 @@ function PostCard({
    title,
    description,
    periodTag,
-   genreTag,
+   genreTags = [],
    commentCount = 0,
 }) {
    return (
       <div
          style={{
+            width: "1000px",
+            margin: "20px auto",
             display: "flex",
             flexDirection: "column",
             alignItems: "flex-start",
-            padding: "90px",
-            borderRadius: "16px",
-            border: "100px solid #black",
-            gap: "12px",
+            padding: "40px",
+            borderTop: "1px solid lightgray",
+            borderBottom: "1px solid lightgray",
+            gap: "5px",
          }}
       >
          <h2>{title}</h2>
-         <h4>{username}</h4>
+         <h4 style={{ textDecoration: "underline" }}>{username}</h4>
          <div
             style={{
+               width: "1000px",
                backgroundColor: "white",
-               padding: "90px",
+               padding: "50px",
                borderRadius: "16px",
-               border: "4px solid #black",
+               border: "1px solid black",
             }}
          >
-            <p style={{ color: "black", margin: 0 }}>{description}</p>
+            <p
+               style={{
+                  display: "-webkit-box",
+                  WebkitLineClamp: 4,
+                  WebkitBoxOrient: "vertical",
+                  overflow: "hidden",
+                  textOverflow: "ellipsis",
+                  textAlign: "left",
+                  color: "black",
+                  margin: 0,
+               }}
+            >
+               {description}
+            </p>
          </div>
          <span>{id}</span>
          <span>{userId}</span>
@@ -40,8 +56,10 @@ function PostCard({
                gap: "8px",
             }}
          >
+            {genreTags.map((tag) => (
+               <button key={tag}>{tag}</button>
+            ))}
             <button>{periodTag}</button>
-            <button>{genreTag}</button>
             <button>Comments {commentCount}</button>
          </div>
       </div>
