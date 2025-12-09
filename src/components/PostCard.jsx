@@ -26,7 +26,7 @@ function PostCard({
          <h4 style={{ textDecoration: "underline" }}>{username}</h4>
          <div
             style={{
-               width: "1000px",
+               width: "900px",
                backgroundColor: "white",
                padding: "50px",
                borderRadius: "16px",
