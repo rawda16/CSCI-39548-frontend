@@ -1,6 +1,4 @@
 function PostCard({
-   id,
-   userId,
    username,
    title,
    description,
@@ -17,7 +15,6 @@ function PostCard({
             flexDirection: "column",
             alignItems: "flex-start",
             padding: "40px",
-            borderTop: "1px solid lightgray",
             borderBottom: "1px solid lightgray",
             gap: "5px",
          }}
@@ -48,8 +45,6 @@ function PostCard({
                {description}
             </p>
          </div>
-         <span>{id}</span>
-         <span>{userId}</span>
          <div
             style={{
                display: "flex",

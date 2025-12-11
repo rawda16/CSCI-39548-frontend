@@ -9,9 +9,9 @@ function PostList({ posts }) {
             gap: "48px",
          }}
       >
-         {posts.map((post) => (
+         {posts.map((post, index) => (
             <PostCard
-               key={post.id}
+               key={index}
                title={post.title}
                username={post.username}
                description={post.description}

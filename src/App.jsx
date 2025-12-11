@@ -1,48 +1,25 @@
-import { useState } from "react";
-import reactLogo from "./assets/react.svg";
-import viteLogo from "/vite.svg";
-import { PostCard, PostList } from "./components";
+import { Routes, Route } from "react-router-dom";
+
+import {
+   PostsPage,
+   HomePage,
+   PostDetailPage,
+   CreatePostPage,
+   RegisterPage,
+} from "./pages";
 
 function App() {
-   const posts = [
-      {
-         id: "p1",
-         userId: "u1",
-         username: "maida",
-
-         title: "Mean Girls Woo",
-         description:
-            "Look at this chic outfit from Mean Girls!!Look at this chic outfit from Mean Girls!!Look at this chic outfit from Mean Girls!!Look at this chic outfit from Mean Girls!!Look at this chic outfit from Mean Girls!!Look at this chic outfit from Mean Girls!!Look at this chic outfit from Mean Girls!!Look at this chic outfit from Mean Girls!!Look at this chic outfit from Mean Girls!!Look at this chic outfit from Mean Girls!!Look at this chic outfit from Mean Girls!!Look at this chic outfit from Mean Girls!!Look at this chic outfit from Mean Girls!!Look at this chic outfit from Mean Girls!!Look at this chic outfit from Mean Girls!!Look at this chic outfit from Mean Girls!!Look at this chic outfit from Mean Girls!!Look at this chic outfit from Mean Girls!!Look at this chic outfit from Mean Girls!!Look at this chic outfit from Mean Girls!!Look at this chic outfit from Mean Girls!!Look at this chic outfit from Mean Girls!!Look at this chic outfit from Mean Girls!!Look at this chic outfit from Mean Girls!!Look at this chic outfit from Mean Girls!!Look at this chic outfit from Mean Girls!!Look at this chic outfit from Mean Girls!!Look at this chic outfit from Mean Girls!!Look at this chic outfit from Mean Girls!!Look at this chic outfit from Mean Girls!!Look at this chic outfit from Mean Girls!!Look at this chic outfit from Mean Girls!!Look at this chic outfit from Mean Girls!!Look at this chic outfit from Mean Girls!!Look at this chic outfit from Mean Girls!!Look at this chic outfit from Mean Girls!!Look at this chic outfit from Mean Girls!!Look at this chic outfit from Mean Girls!!Look at this chic outfit from Mean Girls!!Look at this chic outfit from Mean Girls!!Look at this chic outfit from Mean Girls!!Look at this chic outfit from Mean Girls!!Look at this chic outfit from Mean Girls!!Look at this chic outfit from Mean Girls!!Look at this chic outfit from Mean Girls!!Look at this chic outfit from Mean Girls!!Look at this chic outfit from Mean Girls!!Look at this chic outfit from Mean Girls!!Look at this chic outfit from Mean Girls!!Look at this chic outfit from Mean Girls!!Look at this chic outfit from Mean Girls!!Look at this chic outfit from Mean Girls!!Look at this chic outfit from Mean Girls!!Look at this chic outfit from Mean Girls!!Look at this chic outfit from Mean Girls!!Look at this chic outfit from Mean Girls!!Look at this chic outfit from Mean Girls!!Look at this chic outfit from Mean Girls!!",
-         periodTag: "2000s",
-         genreTags: ["Comedy", "Drama"],
-         commentCount: 3,
-      },
-      {
-         id: "p2",
-         userId: "u2",
-         username: "rawda",
-
-         title: "Vamps Are Cool",
-         description:
-            "Look at these victorian style fits from Dracula! Does anyone know where I could find a similar top? :/",
-         periodTag: "2000s",
-         genreTags: ["Action", "Horror"],
-         commentCount: 5,
-      },
-      {
-         id: "p3",
-         userId: "u3",
-         username: "lindsay",
-
-         title: "Recreation of Anne Hathaway's Outfit in Princess Diaries 2",
-         description:
-            "I've really been into Anne Hathaway's outfits in the second movie. She appears more grown and elegant, so I decided to recreate it! The top is vintage and blah blah.",
-         periodTag: "2000s",
-         genreTags: ["Romance", "Drama"],
-         commentCount: 4,
-      },
-   ];
-   return <PostList posts={posts} />;
+   return (
+      <Routes>
+         <Route index element={<HomePage />} />
+         <Route path="feed">
+            <Route index element={<PostsPage />} />
+            <Route path=":id" element={<PostDetailPage />} />
+         </Route>
+         <Route path="newpost" element={<CreatePostPage />} />
+         <Route path="register" element={<RegisterPage />} />
+      </Routes>
+   );
 }
 
 export default App;
