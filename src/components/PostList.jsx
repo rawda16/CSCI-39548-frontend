@@ -13,10 +13,12 @@ function PostList({ posts }) {
             <PostCard
                key={index}
                title={post.title}
+               image={post.image}
                username={post.username}
                description={post.description}
                periodTag={post.periodTag}
                genreTags={post.genreTags}
+               likeCount={post.likeCount}
                commentCount={post.commentCount}
             />
          ))}

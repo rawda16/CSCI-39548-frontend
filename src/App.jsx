@@ -16,7 +16,7 @@ function App() {
             <Route index element={<PostsPage />} />
             <Route path=":id" element={<PostDetailPage />} />
          </Route>
-         <Route path="newpost" element={<CreatePostPage />} />
+         <Route path="create" element={<CreatePostPage />} />
          <Route path="register" element={<RegisterPage />} />
       </Routes>
    );

@@ -1,11 +1,27 @@
+import { useState } from "react";
+import { Button, IconButton, Typography } from "@mui/material";
+import FavoriteBorderIcon from "@mui/icons-material/FavoriteBorder";
+import FavoriteIcon from "@mui/icons-material/Favorite";
+
 function PostCard({
    username,
    title,
+   image,
    description,
    periodTag,
    genreTags = [],
+   likeCount = 0,
    commentCount = 0,
 }) {
+   // to do: useState to handling the Likes button
+   /* 
+   liked = False;
+   const [count, setCount] = useState(0);
+   function handleClick() {
+      setCount(count + 1);
+      liked = True;
+   }
+      */
    return (
       <div
          style={{
@@ -19,8 +35,21 @@ function PostCard({
             gap: "5px",
          }}
       >
-         <h2>{title}</h2>
-         <h4 style={{ textDecoration: "underline" }}>{username}</h4>
+         <Typography variant="h5">{title}</Typography>
+         <Typography
+            sx={{ fontWeight: "bold", textDecoration: "underline" }}
+            variant="body1"
+         >
+            {username}
+         </Typography>
+         <div
+            style={{ width: "100%", display: "flex", justifyContent: "center" }}
+         >
+            <img
+               src={image}
+               style={{ width: "600px", maxWidth: "100%", height: "auto" }}
+            />
+         </div>
          <div
             style={{
                width: "900px",
@@ -30,7 +59,7 @@ function PostCard({
                border: "1px solid black",
             }}
          >
-            <p
+            <Typography
                style={{
                   display: "-webkit-box",
                   WebkitLineClamp: 4,
@@ -43,7 +72,7 @@ function PostCard({
                }}
             >
                {description}
-            </p>
+            </Typography>
          </div>
          <div
             style={{
@@ -52,10 +81,27 @@ function PostCard({
             }}
          >
             {genreTags.map((tag) => (
-               <button key={tag}>{tag}</button>
+               <Button variant="text" color="black" key={tag}>
+                  {tag}
+               </Button>
             ))}
-            <button>{periodTag}</button>
-            <button>Comments {commentCount}</button>
+            <Button variant="text" color="black">
+               {periodTag}
+            </Button>
+         </div>
+         <div
+            style={{
+               display: "flex",
+               gap: "8px",
+            }}
+         >
+            <IconButton sx={{ borderRadius: "6px" }} color="error" size="small">
+               <FavoriteBorderIcon></FavoriteBorderIcon>
+               {likeCount}
+            </IconButton>
+            <Button variant="contained" color="black">
+               Comments {commentCount}
+            </Button>
          </div>
       </div>
    );
