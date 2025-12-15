@@ -1,7 +1,7 @@
 import { useState } from "react";
 import reactLogo from "./assets/react.svg";
 import viteLogo from "/vite.svg";
-import { PostCard, PostList } from "./components";
+import { PostCard, PostForm, PostList } from "./components";
 
 function App() {
    const posts = [
@@ -29,7 +29,12 @@ function App() {
          commentCount: 5,
       },
    ];
-   return <PostList posts={posts} />;
+   return (
+      <div>
+         <PostForm />
+         <PostList posts={posts} />{" "}
+      </div>
+   );
 }
 
 export default App;
