@@ -1,39 +1,24 @@
-import { useState } from "react";
-import reactLogo from "./assets/react.svg";
-import viteLogo from "/vite.svg";
-import { PostCard, PostForm, PostList } from "./components";
+import { Routes, Route } from "react-router-dom";
+
+import {
+   PostsPage,
+   HomePage,
+   PostDetailPage,
+   CreatePostPage,
+   RegisterPage,
+} from "./pages";
 
 function App() {
-   const posts = [
-      {
-         id: "p1",
-         userId: "u1",
-         username: "maida",
-
-         title: "Mean Girls Woo",
-         description:
-            "Look at this chic outfit from Mean Girls!!Look at this chic outfit from Mean Girls!!Look at this chic outfit from Mean Girls!!Look at this chic outfit from Mean Girls!!Look at this chic outfit from Mean Girls!!Look at this chic outfit from Mean Girls!!Look at this chic outfit from Mean Girls!!",
-         periodTag: "2000s",
-         genreTag: "Comedy",
-         commentCount: 3,
-      },
-      {
-         id: "p2",
-         userId: "u2",
-         username: "rawda",
-
-         title: "Vamps Are Cool",
-         description: "Look at these victorian style fits from Dracula :O",
-         periodTag: "2000s",
-         genreTag: "Action",
-         commentCount: 5,
-      },
-   ];
    return (
-      <div>
-         <PostForm />
-         <PostList posts={posts} />{" "}
-      </div>
+      <Routes>
+         <Route index element={<HomePage />} />
+         <Route path='feed'>
+            <Route index element={<PostsPage />} />
+            <Route path=':id' element={<PostDetailPage />} />
+         </Route>
+         <Route path='create' element={<CreatePostPage />} />
+         <Route path='register' element={<RegisterPage />} />
+      </Routes>
    );
 }
 

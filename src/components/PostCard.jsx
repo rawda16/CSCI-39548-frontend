@@ -1,48 +1,107 @@
+import { useState } from "react";
+import { Button, IconButton, Typography } from "@mui/material";
+import FavoriteBorderIcon from "@mui/icons-material/FavoriteBorder";
+import FavoriteIcon from "@mui/icons-material/Favorite";
+
 function PostCard({
-   id,
-   userId,
    username,
    title,
+   image,
    description,
    periodTag,
-   genreTag,
+   genreTags = [],
+   likeCount = 0,
    commentCount = 0,
 }) {
+   // to do: useState to handling the Likes button
+   /* 
+   liked = False;
+   const [count, setCount] = useState(0);
+   function handleClick() {
+      setCount(count + 1);
+      liked = True;
+   }
+      */
    return (
       <div
          style={{
+            width: "1000px",
+            margin: "20px auto",
             display: "flex",
             flexDirection: "column",
             alignItems: "flex-start",
-            padding: "90px",
-            borderRadius: "16px",
-            border: "100px solid #black",
-            gap: "12px",
+            padding: "40px",
+            borderBottom: "1px solid lightgray",
+            gap: "5px",
          }}
       >
-         <h2>{title}</h2>
-         <h4>{username}</h4>
+         <Typography variant="h5">{title}</Typography>
+         <Typography
+            sx={{ fontWeight: "bold", textDecoration: "underline" }}
+            variant="body1"
+         >
+            {username}
+         </Typography>
+         <div
+            style={{ width: "100%", display: "flex", justifyContent: "center" }}
+         >
+            <img
+               src={image}
+               style={{ width: "600px", maxWidth: "100%", height: "auto" }}
+            />
+         </div>
          <div
             style={{
+               width: "900px",
                backgroundColor: "white",
-               padding: "90px",
+               padding: "50px",
                borderRadius: "16px",
-               border: "4px solid #black",
+               border: "1px solid black",
             }}
          >
-            <p style={{ color: "black", margin: 0 }}>{description}</p>
+            <Typography
+               style={{
+                  display: "-webkit-box",
+                  WebkitLineClamp: 4,
+                  WebkitBoxOrient: "vertical",
+                  overflow: "hidden",
+                  textOverflow: "ellipsis",
+                  textAlign: "left",
+                  color: "black",
+                  margin: 0,
+               }}
+            >
+               {description}
+            </Typography>
          </div>
-         <span>{id}</span>
-         <span>{userId}</span>
          <div
             style={{
                display: "flex",
                gap: "8px",
             }}
          >
-            <button>{periodTag}</button>
-            <button>{genreTag}</button>
-            <button>Comments {commentCount}</button>
+            {genreTags.map((tag) => (
+               <Button variant="text" color="black" key={tag}>
+                  {tag}
+               </Button>
+            ))}
+            <Button variant="text" color="black">
+               {periodTag}
+            </Button>
+         </div>
+         <div
+            style={{
+               display: "flex",
+               gap: "8px",
+            }}
+         >
+            <IconButton sx={{ borderRadius: "6px" }} color="error" size="small">
+               <FavoriteBorderIcon></FavoriteBorderIcon>
+               {likeCount}
+            </IconButton>
+            <Button variant="contained" color="black">
+               Comments {commentCount}
+            </Button>
          </div>
       </div>
    );
