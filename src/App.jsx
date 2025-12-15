@@ -12,12 +12,12 @@ function App() {
    return (
       <Routes>
          <Route index element={<HomePage />} />
-         <Route path="feed">
+         <Route path='feed'>
             <Route index element={<PostsPage />} />
-            <Route path=":id" element={<PostDetailPage />} />
+            <Route path=':id' element={<PostDetailPage />} />
          </Route>
-         <Route path="create" element={<CreatePostPage />} />
-         <Route path="register" element={<RegisterPage />} />
+         <Route path='create' element={<CreatePostPage />} />
+         <Route path='register' element={<RegisterPage />} />
       </Routes>
    );
 }
