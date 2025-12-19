@@ -1,5 +1,252 @@
+import { use, useEffect, useState } from "react";
+import { useParams } from "react-router-dom";
+import api from "../axiosConfig";
+import { Button, IconButton, Typography } from "@mui/material";
+import { EditPost } from "../components";
+import axios from "axios";
+
 function PostDetailPage() {
-   return <div>PostDetailPage</div>;
+   const { id } = useParams();
+   const [post, setPost] = useState(null);
+   const [editing, setEditing] = useState(false);
+   const [isAuthor, setIsAuthor] = useState(false);
+
+   // fetch post data on component mount
+   useEffect(() => {
+      getPost();
+   }, []);
+
+   // check if post author is current user after post is fetched
+   useEffect(() => {
+      postAuthorIsUser();
+   }, [post]);
+
+   // get the post
+   async function getPost() {
+      try {
+         const response = await api.get(`posts/${id}`);
+         setPost(response.data);
+      } catch (error) {
+         console.error(error);
+         setPost(null);
+      }
+   }
+
+   // if there is no post, return post not found
+   if (!post) {
+      return <div>Post not found</div>;
+   }
+
+   // check if the post author is the current user for editing purposes
+   async function postAuthorIsUser() {
+      // if there is no post, just return
+      if (!post) {
+         return;
+      }
+
+      try {
+         const currUser = await api.get("/me");
+         setIsAuthor(post.authorId === currUser.data.id);
+      } catch (error) {
+         console.error("Error fetching current user data:", error);
+      }
+   }
+
+   // handle editing the post (same as postform)
+   const handleEdit = async (
+      id,
+      title,
+      content,
+      timePeriod,
+      genre,
+      movie,
+      image
+   ) => {
+      const usingOldImage = !image; // if no new image is uploaded, use old image
+      // checking if fields are valid and filled
+      if (!title.trim()) return;
+      if (!content.trim()) return;
+      if (!timePeriod.trim()) return;
+      if (!movie.trim()) return;
+      if (genre.length === 0) {
+         return;
+      } else {
+         for (let g of genre) {
+            if (!g.trim()) {
+               return;
+            }
+         }
+      }
+
+      try {
+         let image_url = "";
+         if (!usingOldImage) {
+            image_url = await uploadImage(image[0]);
+         } else {
+            image_url = post.image_url;
+         } // uploading image to get url
+         const data = {
+            title,
+            content,
+            timePeriod,
+            genre,
+            movie,
+            image_url,
+         };
+
+         // sending post request to upload data
+         const response = await api.put(`/posts/${id}`, data);
+
+         console.log("Post editted successfully:", response.data);
+         alert("Post editted successfully!");
+         setEditing(false);
+      } catch (error) {
+         if (error.message === "Image size exceeds 5MB limit") {
+            alert(error.message);
+         } else {
+            alert("Error submitting post.");
+         }
+         console.error("Error submitting post:", error);
+      }
+   };
+
+   const uploadImage = async (image) => {
+      // in future, add signed uploads
+      const CLOUD_NAME = "dqmfnu7i7"; // name of cloudinary API
+      const formData = new FormData();
+
+      formData.append("file", image);
+
+      // upload preset lets you choose settings when uploading,
+      // such as allowing unsigned uploads and uploading to a specific folder
+      formData.append("upload_preset", "fits-in-flicks");
+
+      // checking image size to be less than 5MB
+      if (image.size > 5242880) {
+         throw new Error("Image size exceeds 5MB limit");
+      }
+
+      try {
+         // upload to cloudinary
+         const response = await axios.post(
+            `https://api.cloudinary.com/v1_1/${CLOUD_NAME}/image/upload`,
+            formData
+         );
+         console.log("Cloudinary response:", response);
+
+         return response.data.secure_url;
+      } catch (error) {
+         console.error("Error uploading image to Cloudinary:", error);
+         throw new Error("Failed to upload image", response.statusText);
+      }
+   };
+
+   return (
+      <>
+         {editing ? (
+            <EditPost post={post} id={id} onEdit={handleEdit} />
+         ) : (
+            <div
+               style={{
+                  width: "1000px",
+                  margin: "20px auto",
+                  display: "flex",
+                  flexDirection: "column",
+                  alignItems: "flex-start",
+                  padding: "40px",
+                  borderBottom: "1px solid lightgray",
+                  gap: "5px",
+               }}
+            >
+               <Typography variant='h5'>{post.title}</Typography>
+               <Typography
+                  sx={{ fontWeight: "bold", textDecoration: "underline" }}
+                  variant='body1'
+               >
+                  {post.author.username}
+               </Typography>
+               <div
+                  style={{
+                     width: "100%",
+                     display: "flex",
+                     justifyContent: "center",
+                  }}
+               >
+                  <img
+                     src={post.image_url}
+                     style={{
+                        width: "600px",
+                        maxWidth: "100%",
+                        height: "auto",
+                     }}
+                  />
+               </div>
+               <div
+                  style={{
+                     width: "900px",
+                     backgroundColor: "white",
+                     padding: "50px",
+                     borderRadius: "16px",
+                     border: "1px solid black",
+                  }}
+               >
+                  <Typography
+                     style={{
+                        display: "-webkit-box",
+                        WebkitLineClamp: 4,
+                        WebkitBoxOrient: "vertical",
+                        overflow: "hidden",
+                        textOverflow: "ellipsis",
+                        textAlign: "left",
+                        color: "black",
+                        margin: 0,
+                     }}
+                  >
+                     {post.content}
+                  </Typography>
+               </div>
+               <div
+                  style={{
+                     display: "flex",
+                     gap: "8px",
+                  }}
+               >
+                  {post.genre.map((tag) => (
+                     <Button variant='text' color='black' key={tag}>
+                        {tag}
+                     </Button>
+                  ))}
+                  <Button variant='text' color='black'>
+                     {post.timePeriod}
+                  </Button>
+               </div>
+
+               <div
+                  style={{
+                     display: "flex",
+                     gap: "8px",
+                  }}
+               >
+                  {/* <IconButton sx={{ borderRadius: "6px" }} color='error' size='small'>
+               <FavoriteBorderIcon></FavoriteBorderIcon>
+               {likeCount}
+            </IconButton>
+            <Button variant='contained' color='black'>
+               Comments {commentCount}
+            </Button> */}
+                  {isAuthor && (
+                     <Button
+                        variant='outlined'
+                        onClick={() => setEditing(true)}
+                     >
+                        Edit Post
+                     </Button>
+                  )}
+               </div>
+            </div>
+         )}
+      </>
+   );
 }
 
 export default PostDetailPage;

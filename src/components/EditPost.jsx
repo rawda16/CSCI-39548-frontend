@@ -2,25 +2,15 @@ import { useState } from "react";
 import api from "..//axiosConfig";
 import { useNavigate } from "react-router-dom";
 
-function EditPost({
-   title,
-   content,
-   timePeriod,
-   genre,
-   movie,
-   image_url,
-   id,
-   onEdit,
-}) {
-   const [newTitle, setTitle] = useState(title);
-   const [newContent, setContent] = useState(content);
-   const [newTimePeriod, setTimePeriod] = useState(timePeriod);
-   const [newGenre, setGenre] = useState(genre);
-   const [newMovie, setMovie] = useState(movie);
-   const [newImageUrl, setImageUrl] = useState(image_url);
+function EditPost({ post, id, onEdit }) {
+   console.log("Editing post:", post);
+   const [newTitle, setTitle] = useState(post.title);
+   const [newContent, setContent] = useState(post.content);
+   const [newTimePeriod, setTimePeriod] = useState(post.timePeriod);
+   const [newGenre, setGenre] = useState(post.genre);
+   const [newMovie, setMovie] = useState(post.movie);
+   const [newImageUrl, setImageUrl] = useState(post.image_url);
    const [newImage, setImage] = useState(null);
-
-   let navigate = useNavigate();
 
    const time_period_list = [
       "1920s",
@@ -58,7 +48,7 @@ function EditPost({
          newTimePeriod,
          newGenre,
          newMovie,
-         newImageUrl
+         newImage
       );
    };
 
@@ -68,41 +58,6 @@ function EditPost({
          (option) => option.value
       );
       setGenre(selectedOptions);
-   };
-
-   // uploading images to cloudinary
-   // changed from back to front since it is simpler and
-   // creates less issues since images aren't being redirected
-   // multiple times before uploading
-   const uploadImage = async (image) => {
-      // in future, add signed uploads
-      const CLOUD_NAME = "dqmfnu7i7"; // name of cloudinary API
-      const formData = new FormData();
-
-      formData.append("file", image);
-
-      // upload preset lets you choose settings when uploading,
-      // such as allowing unsigned uploads and uploading to a specific folder
-      formData.append("upload_preset", "fits-in-flicks");
-
-      // checking image size to be less than 5MB
-      if (image.size > 5242880) {
-         throw new Error("Image size exceeds 5MB limit");
-      }
-
-      try {
-         // upload to cloudinary
-         const response = await axios.post(
-            `https://api.cloudinary.com/v1_1/${CLOUD_NAME}/image/upload`,
-            formData
-         );
-         console.log("Cloudinary response:", response);
-
-         return response.data.secure_url;
-      } catch (error) {
-         console.error("Error uploading image to Cloudinary:", error);
-         throw new Error("Failed to upload image", response.statusText);
-      }
    };
 
    return (
@@ -115,7 +70,7 @@ function EditPost({
                <input
                   id='title'
                   type='text'
-                  value={title}
+                  value={newTitle}
                   onChange={(e) => setTitle(e.target.value)}
                   required
                />
@@ -127,7 +82,7 @@ function EditPost({
                </label>
                <textarea
                   id='content'
-                  value={content}
+                  value={newContent}
                   onChange={(e) => setContent(e.target.value)}
                   required
                ></textarea>
@@ -139,7 +94,7 @@ function EditPost({
                </label>
                <select
                   id='timePeriod'
-                  value={timePeriod}
+                  value={newTimePeriod}
                   onChange={(e) => {
                      setTimePeriod(e.target.value);
                   }}
@@ -160,7 +115,7 @@ function EditPost({
                </label>
                <select
                   id='genre'
-                  value={genre}
+                  value={newGenre}
                   onChange={handleGenreChange}
                   required
                   multiple
@@ -178,7 +133,7 @@ function EditPost({
                <input
                   id='movie'
                   type='text'
-                  value={movie}
+                  value={newMovie}
                   onChange={(e) => setMovie(e.target.value)}
                   required
                />
