@@ -1,6 +1,7 @@
 import { useState } from "react";
 import api from "..//axiosConfig";
 import { useNavigate } from "react-router-dom";
+import axios from "axios";
 
 function PostForm() {
    // to do: create dropdown menu!
