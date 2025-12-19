@@ -1,5 +1,7 @@
+import { Signup } from "../components";
+
 function RegisterPage() {
-   return <div>RegisterPage</div>;
+   return <Signup />;
 }
 
 export default RegisterPage;

@@ -6,6 +6,7 @@ import {
    PostDetailPage,
    CreatePostPage,
    RegisterPage,
+   LoginPage,
 } from "./pages";
 
 function App() {
@@ -18,6 +19,7 @@ function App() {
          </Route>
          <Route path='create' element={<CreatePostPage />} />
          <Route path='register' element={<RegisterPage />} />
+         <Route path='login' element={<LoginPage />} />
       </Routes>
    );
 }

@@ -2,14 +2,23 @@ import { useState } from "react";
 import api from "..//axiosConfig";
 import { useNavigate } from "react-router-dom";
 
-function PostForm() {
-   // to do: create dropdown menu!
-   const [title, setTitle] = useState("");
-   const [content, setContent] = useState("");
-   const [timePeriod, setTimePeriod] = useState("");
-   const [genre, setGenre] = useState([]);
-   const [movie, setMovie] = useState("");
-   const [image, setImage] = useState(null);
+function EditPost({
+   title,
+   content,
+   timePeriod,
+   genre,
+   movie,
+   image_url,
+   id,
+   onEdit,
+}) {
+   const [newTitle, setTitle] = useState(title);
+   const [newContent, setContent] = useState(content);
+   const [newTimePeriod, setTimePeriod] = useState(timePeriod);
+   const [newGenre, setGenre] = useState(genre);
+   const [newMovie, setMovie] = useState(movie);
+   const [newImageUrl, setImageUrl] = useState(image_url);
+   const [newImage, setImage] = useState(null);
 
    let navigate = useNavigate();
 
@@ -42,60 +51,15 @@ function PostForm() {
    const handleSubmit = async (e) => {
       e.preventDefault();
 
-      // checking if fields are valid and filled
-      if (!title.trim()) return;
-      if (!content.trim()) return;
-      if (!timePeriod.trim()) return;
-      if (!movie.trim()) return;
-      if (!image) {
-         alert("Please upload an image.");
-         return;
-      }
-      if (genre.length === 0) {
-         return;
-      } else {
-         for (let g of genre) {
-            if (!g.trim()) {
-               return;
-            }
-         }
-      }
-
-      try {
-         const image_url = await uploadImage(image[0]); // uploading image to get url
-         const data = {
-            title,
-            content,
-            timePeriod,
-            genre,
-            movie,
-            image_url,
-         };
-
-         // sending post request to upload data
-         const response = await api.post("/post", data);
-
-         console.log("Post submitted successfully:", response.data);
-         alert("Post submitted successfully!");
-
-         // reseting form
-         setTitle("");
-         setContent("");
-         setTimePeriod("");
-         setGenre([]);
-         setMovie("");
-         setImage(null);
-
-         // navigate back to home page
-         navigate("/feed");
-      } catch (error) {
-         if (error.message === "Image size exceeds 5MB limit") {
-            alert(error.message);
-         } else {
-            alert("Error submitting post.");
-         }
-         console.error("Error submitting post:", error);
-      }
+      onEdit(
+         id,
+         newTitle,
+         newContent,
+         newTimePeriod,
+         newGenre,
+         newMovie,
+         newImageUrl
+      );
    };
 
    const handleGenreChange = (e) => {
@@ -143,7 +107,6 @@ function PostForm() {
 
    return (
       <div>
-         <h2>Submit a Post!</h2>
          <form onSubmit={handleSubmit}>
             <div>
                <label htmlFor='title'>
@@ -239,4 +202,4 @@ function PostForm() {
    );
 }
 
-export default PostForm;
+export default EditPost;
