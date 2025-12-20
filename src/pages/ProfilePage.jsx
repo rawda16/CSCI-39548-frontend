@@ -37,13 +37,25 @@ function ProfilePage() {
       return <Typography>Loading profile...</Typography>;
    }
 
+   // handle deleting the post
+   async function handleDelete(id) {
+      try {
+         await api.delete(`/post/${id}`);
+         alert("Post deleted successfully!");
+         setPosts(posts.filter((post) => post.id !== id));
+      } catch (error) {
+         alert(error.response.data.message || "Error deleting post");
+         console.error("Error deleting post:", error);
+      }
+   }
+
    return (
       <>
          <Stack
-            direction="row"
+            direction='row'
             spacing={2}
-            alignItems="center"
-            color="black"
+            alignItems='center'
+            color='black'
             sx={{
                mt: 3,
                mb: 2,
@@ -52,12 +64,12 @@ function ProfilePage() {
                textDecoration: "none",
             }}
             component={RouterLink}
-            to="/feed"
-            variant="h2"
+            to='/feed'
+            variant='h2'
          >
             <MovieFilterIcon sx={{ fontSize: 100 }} />
             <Typography
-               variant="h2"
+               variant='h2'
                sx={{ display: "flex", justifyContent: "flex-start" }}
             >
                Fits in Flicks
@@ -65,13 +77,13 @@ function ProfilePage() {
          </Stack>
 
          <Typography
-            variant="h4"
+            variant='h4'
             sx={{ textAlign: "center", margin: "20px 0" }}
          >
             {username}
          </Typography>
 
-         <PostList posts={posts} />
+         <PostList posts={posts} onDelete={handleDelete} />
       </>
    );
 }

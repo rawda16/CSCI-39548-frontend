@@ -30,26 +30,38 @@ function TagPage({ type }) {
       return <Typography>Loading posts...</Typography>;
    }
 
+   // handle deleting the post
+   async function handleDelete(id) {
+      try {
+         await api.delete(`/post/${id}`);
+         alert("Post deleted successfully!");
+         setPosts(posts.filter((post) => post.id !== id));
+      } catch (error) {
+         alert(error.response.data.message || "Error deleting post");
+         console.error("Error deleting post:", error);
+      }
+   }
+
    return (
       <>
          <Typography
             component={RouterLink}
-            to="/feed"
-            variant="h2"
-            color="black"
+            to='/feed'
+            variant='h2'
+            color='black'
             sx={{ cursor: "pointer", textDecoration: "none" }}
          >
             Fits in Flicks
          </Typography>
 
          <Typography
-            variant="h4"
+            variant='h4'
             sx={{ textAlign: "center", margin: "20px 0" }}
          >
             #{tag}
          </Typography>
 
-         <PostList posts={posts} />
+         <PostList posts={posts} onDelete={handleDelete} />
       </>
    );
 }
