@@ -44,7 +44,7 @@ export default function LoginForm() {
             // Save JWT token (slide-based approach)
             localStorage.setItem("token", data.token);
             localStorage.setItem("user", data.user.id);
-            alert("Login successful!");
+            alert("Logged in!");
             navigate("/feed");
          }
       } catch (error) {
@@ -54,7 +54,9 @@ export default function LoginForm() {
    return (
       <>
          {loggedIn ? (
-            <Typography>You're already logged in!</Typography>
+            <Typography variant='h5' align='center' sx={{ mt: 5 }}>
+               You're already logged in!
+            </Typography>
          ) : (
             <Paper
                elevation={3}

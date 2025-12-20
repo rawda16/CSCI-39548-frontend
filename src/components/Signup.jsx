@@ -31,6 +31,7 @@ export default function RegisterForm() {
 
    const handleSubmit = async (values) => {
       try {
+         // Only send email & password to backend
          const response = await fetch(
             "http://localhost:8000/api/auth/register",
             {
@@ -43,11 +44,13 @@ export default function RegisterForm() {
          );
 
          const data = await response.json();
-         alert(data.message + ". Please log in.");
 
          // If successful, you could navigate or save token
          if (response.ok) {
+            alert(data.message + "! Please log in.");
             navigate("/login");
+         } else {
+            alert(data.message);
          }
       } catch (error) {
          alert("Something went wrong");
