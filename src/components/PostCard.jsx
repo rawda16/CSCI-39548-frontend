@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Button, IconButton, Typography } from "@mui/material";
 import FavoriteBorderIcon from "@mui/icons-material/FavoriteBorder";
 import FavoriteIcon from "@mui/icons-material/Favorite";
@@ -14,7 +14,10 @@ function PostCard({
    likeCount = 0,
    commentCount = 0,
    id,
+   authorId,
+   onDelete,
 }) {
+   const [author, setIsAuthor] = useState("");
    // to do: useState to handling the Likes button
    /* 
    liked = False;
@@ -24,6 +27,23 @@ function PostCard({
       liked = True;
    }
       */
+
+   // this chekcs if the post author is the current user and then rerends
+   // when authorId changes so the delete button doesn't persist
+   useEffect(() => {
+      postAuthorIsUser();
+   }, [authorId]);
+
+   // check if the post author is the current user for editing purposes
+   async function postAuthorIsUser() {
+      setIsAuthor(authorId === Number(localStorage.getItem("user")));
+   }
+
+   const handleDelete = (id) => {
+      console.log("Delete post with id:", id);
+      onDelete(id);
+   };
+
    return (
       <div
          style={{
@@ -38,6 +58,16 @@ function PostCard({
          }}
       >
          <Typography variant='h5'>{title}</Typography>
+
+         {author && (
+            <Button
+               variant='contained'
+               onClick={() => handleDelete(id)}
+               color='error'
+            >
+               Delete
+            </Button>
+         )}
          <Typography
             sx={{ fontWeight: "bold", textDecoration: "underline" }}
             variant='body1'

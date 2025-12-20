@@ -1,6 +1,6 @@
 import PostCard from "./PostCard";
 
-function PostList({ posts }) {
+function PostList({ posts, onDelete }) {
    return (
       <div
          style={{
@@ -21,6 +21,8 @@ function PostList({ posts }) {
                likeCount={post.likeCount}
                commentCount={post.commentCount}
                id={post.id}
+               onDelete={onDelete}
+               authorId={post.authorId}
             />
          ))}
       </div>

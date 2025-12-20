@@ -1,5 +1,5 @@
 import { use, useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import api from "../axiosConfig";
 import { Button, IconButton, Typography } from "@mui/material";
 import { EditPost } from "../components";
@@ -10,6 +10,8 @@ function PostDetailPage() {
    const [post, setPost] = useState(null);
    const [editing, setEditing] = useState(false);
    const [isAuthor, setIsAuthor] = useState(false);
+
+   const navigate = useNavigate();
 
    // fetch post data on component mount
    useEffect(() => {
@@ -44,11 +46,17 @@ function PostDetailPage() {
          return;
       }
 
+      setIsAuthor(post.authorId === Number(localStorage.getItem("user")));
+   }
+
+   // handle deleting the post
+   async function handleDelete(id) {
       try {
-         const currUser = await api.get("/me");
-         setIsAuthor(post.authorId === currUser.data.id);
+         await api.delete(`/post/${id}`);
+         alert("Post deleted successfully!");
+         navigate("/feed");
       } catch (error) {
-         console.error("Error fetching current user data:", error);
+         console.error("Error deleting post:", error);
       }
    }
 
@@ -99,6 +107,8 @@ function PostDetailPage() {
 
          console.log("Post editted successfully:", response.data);
          alert("Post editted successfully!");
+
+         setPost(response.data);
          setEditing(false);
       } catch (error) {
          if (error.message === "Image size exceeds 5MB limit") {
@@ -240,6 +250,15 @@ function PostDetailPage() {
                         onClick={() => setEditing(true)}
                      >
                         Edit Post
+                     </Button>
+                  )}
+                  {isAuthor && (
+                     <Button
+                        variant='outlined'
+                        color='error'
+                        onClick={() => handleDelete(post.id)}
+                     >
+                        Delete Post
                      </Button>
                   )}
                </div>
