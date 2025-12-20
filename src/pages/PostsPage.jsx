@@ -47,11 +47,11 @@ function PostsPage() {
    }
 
    return (
-      <Box>
-         <Box sx={{ display: "flex", gap: "4px" }}>
+      <Box sx={{ p: 1 }}>
+         <Box sx={{ display: "flex" }}>
             <Button
-               variant="contained"
-               color="black"
+               variant='contained'
+               color='black'
                onClick={() => navigate(`/create`)}
             >
                Create a New Post

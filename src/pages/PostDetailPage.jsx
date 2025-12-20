@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { Link as RouterLink } from "react-router-dom";
 import api from "../axiosConfig";
-import { Button, IconButton, Typography } from "@mui/material";
+import { Button, IconButton, Stack, Typography } from "@mui/material";
 import { EditPost } from "../components";
 import axios from "axios";
 import CommentSection from "../components/CommentSection";
@@ -182,7 +182,23 @@ function PostDetailPage() {
                   gap: "5px",
                }}
             >
-               <Typography variant="h5">{post.title}</Typography>
+               <Stack
+                  direction='row'
+                  justifyContent='space-between'
+                  width='100%'
+               >
+                  <Typography variant='h5'>{post.title}</Typography>
+                  {isAuthor && (
+                     <Button
+                        variant='contained'
+                        color='error'
+                        onClick={() => handleDelete(post.id)}
+                     >
+                        Delete
+                     </Button>
+                  )}
+               </Stack>
+
                <Typography
                   sx={{
                      fontWeight: "bold",
@@ -238,8 +254,8 @@ function PostDetailPage() {
                >
                   {post.genre.map((tag) => (
                      <Button
-                        variant="text"
-                        color="black"
+                        variant='text'
+                        color='black'
                         onClick={(e) => {
                            e.stopPropagation;
                            navigate(`/tags/genre/${tag}`);
@@ -250,8 +266,8 @@ function PostDetailPage() {
                      </Button>
                   ))}
                   <Button
-                     variant="text"
-                     color="black"
+                     variant='text'
+                     color='black'
                      onClick={() => navigate(`/tags/period/${post.timePeriod}`)}
                   >
                      {post.timePeriod}
@@ -266,19 +282,10 @@ function PostDetailPage() {
                >
                   {isAuthor && (
                      <Button
-                        variant="outlined"
+                        variant='outlined'
                         onClick={() => setEditing(true)}
                      >
                         Edit Post
-                     </Button>
-                  )}
-                  {isAuthor && (
-                     <Button
-                        variant="outlined"
-                        color="error"
-                        onClick={() => handleDelete(post.id)}
-                     >
-                        Delete Post
                      </Button>
                   )}
                </div>

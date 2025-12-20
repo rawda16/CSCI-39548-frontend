@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { Button, Typography } from "@mui/material";
+import { Button, Stack, Typography } from "@mui/material";
 import { useNavigate } from "react-router-dom";
 
 function PostCard({
@@ -52,17 +52,19 @@ function PostCard({
             gap: "5px",
          }}
       >
-         <Typography variant="h5">{title}</Typography>
+         <Stack direction='row' justifyContent='space-between' width='100%'>
+            <Typography variant='h5'>{title}</Typography>
 
-         {author && (
-            <Button
-               variant="contained"
-               onClick={(e) => handleDelete(e, id)}
-               color="error"
-            >
-               Delete
-            </Button>
-         )}
+            {author && (
+               <Button
+                  variant='contained'
+                  onClick={(e) => handleDelete(e, id)}
+                  color='error'
+               >
+                  Delete
+               </Button>
+            )}
+         </Stack>
          <Typography
             sx={{
                fontWeight: "bold",
@@ -70,7 +72,7 @@ function PostCard({
                cursor: "pointer",
                alignSelf: "flex-start",
             }}
-            variant="body1"
+            variant='body1'
             onClick={(e) => {
                e.stopPropagation();
                navigate(`/profile/${authorId}`);
@@ -126,8 +128,8 @@ function PostCard({
          >
             {genreTags.map((tag) => (
                <Button
-                  variant="text"
-                  color="black"
+                  variant='text'
+                  color='black'
                   onClick={() => navigate(`/tags/genre/${tag}`)}
                   key={tag}
                >
@@ -135,8 +137,8 @@ function PostCard({
                </Button>
             ))}
             <Button
-               variant="text"
-               color="black"
+               variant='text'
+               color='black'
                onClick={() => navigate(`/tags/period/${periodTag}`)}
             >
                {periodTag}
@@ -149,11 +151,11 @@ function PostCard({
                gap: "8px",
             }}
          >
-            <Button variant="contained" color="black" onClick={handleClick}>
+            <Button variant='contained' color='black' onClick={handleClick}>
                Comments {commentCount}
             </Button>
             <div style={{ display: "flex", alignContent: "flex-end" }}>
-               <Button variant="contained" color="black" onClick={handleClick}>
+               <Button variant='contained' color='black' onClick={handleClick}>
                   View Post
                </Button>
             </div>
