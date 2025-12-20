@@ -60,6 +60,7 @@ function PostDetailPage() {
          navigate("/feed");
       } catch (error) {
          console.error("Error deleting post:", error);
+         alert(error.response.data.message || "Error deleting post");
       }
    }
 
@@ -157,7 +158,7 @@ function PostDetailPage() {
    return (
       <>
          <Typography
-            variant="h2"
+            variant='h2'
             sx={{ display: "flex", justifyContent: "flex-start" }}
          >
             Fits in Flicks

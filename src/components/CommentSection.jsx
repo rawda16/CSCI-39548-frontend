@@ -34,6 +34,16 @@ function CommentSection({ postId }) {
          setNewComment("");
          fetchComments();
       } catch (err) {
+         if (err.response && err.response.data && err.response.data.message) {
+            if (err.response.data.message === "No token") {
+               alert("Please log in to add a comment!");
+            } else {
+               alert(err.response.data.message);
+            }
+         } else {
+            alert(err.response.data.message || "Error adding comment");
+         }
+
          console.error("Error adding comment", err);
       }
    };
@@ -45,6 +55,7 @@ function CommentSection({ postId }) {
          fetchComments();
       } catch (err) {
          console.error("Error deleting comment", err);
+         alert(err.response.data.message || "Error deleting comment");
       }
    };
 
@@ -93,8 +104,8 @@ function CommentSection({ postId }) {
 
                {comment.authorId === currentUserId && (
                   <Button
-                     color="error"
-                     size="small"
+                     color='error'
+                     size='small'
                      onClick={() => handleDeleteComment(comment.id)}
                   >
                      Delete
@@ -108,14 +119,14 @@ function CommentSection({ postId }) {
                fullWidth
                multiline
                rows={2}
-               placeholder="Add a comment..."
+               placeholder='Add a comment...'
                value={newComment}
                onChange={(e) => setNewComment(e.target.value)}
                sx={{ display: "flex", alignContent: "center" }}
             />
 
             <Button
-               variant="contained"
+               variant='contained'
                sx={{ marginTop: "10px" }}
                onClick={handleAddComment}
             >
