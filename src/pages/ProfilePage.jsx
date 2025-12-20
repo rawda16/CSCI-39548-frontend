@@ -95,10 +95,8 @@ function ProfilePage() {
                This user hasn’t posted anything yet.
             </Typography>
          ) : (
-            <PostList posts={posts} />
+            <PostList posts={posts} onDelete={handleDelete} />
          )}
-
-         <PostList posts={posts} onDelete={handleDelete} />
       </>
    );
 }
