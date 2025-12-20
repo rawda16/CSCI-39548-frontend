@@ -11,17 +11,18 @@ function ProfilePage() {
    const [posts, setPosts] = useState([]);
    const [username, setUsername] = useState("");
    const [loading, setLoading] = useState(true);
+   const [displayName, setDisplayName] = useState("");
 
    useEffect(() => {
       async function fetchUserPosts() {
          try {
+            // fetch posts
             const res = await api.get(`/posts?authorId=${userId}`);
             setPosts(Array.isArray(res.data) ? res.data : []);
 
-            // pull username
-            if (res.data.length > 0) {
-               setUsername(res.data[0].author.username);
-            }
+            // fetch user info
+            const userRes = await api.get(`/user/${userId}`);
+            setDisplayName(userRes.data.displayName);
          } catch (err) {
             console.error(err);
             setPosts([]);
@@ -68,8 +69,9 @@ function ProfilePage() {
             variant="h4"
             sx={{ textAlign: "center", margin: "20px 0" }}
          >
-            {username}
+            {displayName}
          </Typography>
+         {}
          {posts.length === 0 ? (
             <Typography
                sx={{
@@ -83,8 +85,6 @@ function ProfilePage() {
          ) : (
             <PostList posts={posts} />
          )}
-
-         <PostList posts={posts} />
       </>
    );
 }
