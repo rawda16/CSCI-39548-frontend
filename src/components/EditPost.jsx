@@ -61,6 +61,7 @@ export default function EditPost({ post, id, onEdit }) {
       "Sci-fi",
    ];
 
+   // handle edit submission
    const handleSubmit = async (values) => {
       onEdit(
          id,

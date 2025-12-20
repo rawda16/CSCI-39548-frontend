@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
-import { LogOut, PostList } from "../components";
+import { PostList } from "../components";
 import api from "../axiosConfig";
 import { Stack, Typography } from "@mui/material";
 import { Link as RouterLink } from "react-router-dom";

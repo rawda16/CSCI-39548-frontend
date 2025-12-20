@@ -95,11 +95,7 @@ export default function PostForm() {
       }
    };
 
-   /* uploading images to cloudinary
-    changed from back to front since it is simpler and
-    creates less issues since images aren't being redirected
-    multiple times before uploading 
-   */
+   // uploading images to cloudinary
    const uploadImage = async (image) => {
       // in future, add signed uploads
       const CLOUD_NAME = "dqmfnu7i7"; // name of cloudinary API
