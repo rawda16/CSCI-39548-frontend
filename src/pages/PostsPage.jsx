@@ -41,6 +41,7 @@ function PostsPage() {
          alert("Post deleted successfully!");
          setPosts(posts.filter((post) => post.id !== id));
       } catch (error) {
+         alert(error.response.data.message || "Error deleting post");
          console.error("Error deleting post:", error);
       }
    }

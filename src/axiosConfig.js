@@ -1,3 +1,8 @@
+/*
+Right now, there is nothing to refresh tokens or delete tokens from
+localstorage and log out.
+*/
+
 import axios from "axios";
 
 const api = axios.create({

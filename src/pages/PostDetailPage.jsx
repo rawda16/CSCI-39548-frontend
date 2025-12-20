@@ -61,6 +61,7 @@ function PostDetailPage() {
          navigate("/feed");
       } catch (error) {
          console.error("Error deleting post:", error);
+         alert(error.response.data.message || "Error deleting post");
       }
    }
 
@@ -159,9 +160,9 @@ function PostDetailPage() {
       <>
          <Typography
             component={RouterLink}
-            to="/feed"
-            variant="h2"
-            color="black"
+            to='/feed'
+            variant='h2'
+            color='black'
             sx={{ cursor: "pointer", textDecoration: "none" }}
          >
             Fits in Flicks

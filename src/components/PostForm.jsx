@@ -11,10 +11,13 @@ import {
    FormHelperText,
    Typography,
    Stack,
+   Grid,
+   Paper,
 } from "@mui/material";
 import api from "../axiosConfig";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
+import SendIcon from "@mui/icons-material/Send";
 
 const PostFormSchema = Yup.object({
    title: Yup.string().trim().required("Title is required"),
@@ -26,7 +29,7 @@ const PostFormSchema = Yup.object({
    movie: Yup.string().trim().required("Movie is required"),
 });
 
-function PostForm() {
+export default function PostForm() {
    const [image, setImage] = useState(null);
    let navigate = useNavigate();
 
@@ -58,6 +61,7 @@ function PostForm() {
    ];
 
    const handleSubmit = async (values, { resetForm }) => {
+      // if there is no image, throw an error
       if (!image) {
          alert("Please upload an image.");
          return;
@@ -129,8 +133,23 @@ function PostForm() {
    };
 
    return (
-      <div>
-         <Typography>Submit a Post!</Typography>
+      <Paper
+         elevation={3}
+         sx={{
+            maxWidth: "600px",
+            margin: "auto",
+            padding: 4,
+         }}
+      >
+         <Typography
+            variant='h4'
+            sx={{
+               textAlign: "center",
+               mb: 4,
+            }}
+         >
+            Submit a Post!
+         </Typography>
 
          <Formik
             initialValues={{
@@ -145,87 +164,108 @@ function PostForm() {
          >
             {({ errors, touched, values, setFieldValue }) => (
                <Form>
-                  <Stack gap={1} sx={{}}>
+                  <Stack spacing={3}>
                      <Field
                         as={TextField}
                         name='title'
-                        label='Title'
+                        label='Post Title'
+                        fullWidth
+                        variant='outlined'
                         error={touched.title && Boolean(errors.title)}
                         helperText={touched.title && errors.title}
                      />
-                  </Stack>
 
-                  <Stack gap={1} sx={{}}>
                      <Field
                         as={TextField}
                         name='content'
-                        label='Content'
+                        label='Description'
                         multiline
-                        rows={4}
+                        rows={5}
+                        fullWidth
+                        variant='outlined'
                         error={touched.content && Boolean(errors.content)}
                         helperText={touched.content && errors.content}
                      />
-                  </Stack>
 
-                  <Stack gap={1} sx={{}}>
-                     <FormControl
-                        error={touched.timePeriod && Boolean(errors.timePeriod)}
-                     >
-                        <InputLabel>Time Period</InputLabel>
-                        <Field
-                           as={Select}
-                           name='timePeriod'
-                           label='Time Period'
-                        >
-                           <MenuItem value='' disabled>
-                              Select a time period
-                           </MenuItem>
-                           {time_period_list.map((period) => (
-                              <MenuItem key={period} value={period}>
-                                 {period}
-                              </MenuItem>
-                           ))}
-                        </Field>
-                        {touched.timePeriod && errors.timePeriod && (
-                           <FormHelperText>{errors.timePeriod}</FormHelperText>
-                        )}
-                     </FormControl>
+                     <Grid container spacing={2}>
+                        <Grid size={3}>
+                           <FormControl
+                              fullWidth
+                              variant='outlined'
+                              error={
+                                 touched.timePeriod &&
+                                 Boolean(errors.timePeriod)
+                              }
+                           >
+                              <InputLabel id='timePeriod-label'>
+                                 Time Period
+                              </InputLabel>
+                              <Field
+                                 as={Select}
+                                 name='timePeriod'
+                                 labelId='timePeriod-label'
+                                 label='Time Period'
+                              >
+                                 <MenuItem value='' disabled>
+                                    Select a time period
+                                 </MenuItem>
+                                 {time_period_list.map((period) => (
+                                    <MenuItem key={period} value={period}>
+                                       {period}
+                                    </MenuItem>
+                                 ))}
+                              </Field>
+                              {touched.timePeriod && errors.timePeriod && (
+                                 <FormHelperText>
+                                    {errors.timePeriod}
+                                 </FormHelperText>
+                              )}
+                           </FormControl>
+                        </Grid>
 
-                     <FormControl
-                        error={touched.genre && Boolean(errors.genre)}
-                     >
-                        <InputLabel>Genre</InputLabel>
-                        <Field
-                           as={Select}
-                           name='genre'
-                           label='Genre'
-                           multiple
-                           value={values.genre}
-                           onChange={(e) =>
-                              setFieldValue("genre", e.target.value)
-                           }
-                        >
-                           {movie_genre_list.map((genre) => (
-                              <MenuItem key={genre} value={genre}>
-                                 {genre}
-                              </MenuItem>
-                           ))}
-                        </Field>
-                        {touched.genre && errors.genre && (
-                           <FormHelperText>{errors.genre}</FormHelperText>
-                        )}
-                     </FormControl>
+                        <Grid size={3}>
+                           <FormControl
+                              fullWidth
+                              variant='outlined'
+                              error={touched.genre && Boolean(errors.genre)}
+                           >
+                              <InputLabel id='genre-label'>Genre</InputLabel>
+                              <Field
+                                 as={Select}
+                                 name='genre'
+                                 labelId='genre-label'
+                                 label='Genre'
+                                 multiple
+                                 value={values.genre}
+                                 onChange={(e) =>
+                                    setFieldValue("genre", e.target.value)
+                                 }
+                                 renderValue={(selected) => selected.join(", ")}
+                              >
+                                 {movie_genre_list.map((genre) => (
+                                    <MenuItem key={genre} value={genre}>
+                                       {genre}
+                                    </MenuItem>
+                                 ))}
+                              </Field>
+                              {touched.genre && errors.genre && (
+                                 <FormHelperText>{errors.genre}</FormHelperText>
+                              )}
+                           </FormControl>
+                        </Grid>
 
-                     <Field
-                        as={TextField}
-                        name='movie'
-                        label='Movie'
-                        error={touched.movie && Boolean(errors.movie)}
-                        helperText={touched.movie && errors.movie}
-                     />
-                  </Stack>
+                        <Grid size={3}>
+                           <Field
+                              as={TextField}
+                              name='movie'
+                              label='Movie'
+                              variant='outlined'
+                              error={touched.movie && Boolean(errors.movie)}
+                              helperText={touched.movie && errors.movie}
+                           />
+                        </Grid>
+                     </Grid>
 
-                  <Stack gap={1} sx={{}}>
                      <FormControl>
                         <InputLabel shrink>Image *</InputLabel>
                         <input
@@ -233,18 +273,26 @@ function PostForm() {
                            accept='image/*'
                            onChange={(e) => setImage(e.target.files)}
                            required
+                           style={{
+                              marginTop: 10,
+                              marginLeft: 8,
+                           }}
                         />
                      </FormControl>
-                  </Stack>
 
-                  <Button type='submit' variant='contained'>
-                     Submit
-                  </Button>
+                     <Button
+                        type='submit'
+                        variant='contained'
+                        size='large'
+                        endIcon={<SendIcon />}
+                        sx={{ alignSelf: "center", maxWidth: "200px" }}
+                     >
+                        Submit Post
+                     </Button>
+                  </Stack>
                </Form>
             )}
          </Formik>
-      </div>
+      </Paper>
    );
 }
-
-export default PostForm;
