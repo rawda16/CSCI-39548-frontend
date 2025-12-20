@@ -21,7 +21,17 @@ function PostsPage() {
       fetchPosts();
    });
 
-   return <PostList posts={posts} />;
+   async function handleDelete(id) {
+      try {
+         await api.delete(`/post/${id}`);
+         alert("Post deleted successfully!");
+         setPosts(posts.filter((post) => post.id !== id));
+      } catch (error) {
+         console.error("Error deleting post:", error);
+      }
+   }
+
+   return <PostList posts={posts} onDelete={handleDelete} />;
 }
 
 export default PostsPage;
