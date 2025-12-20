@@ -16,14 +16,14 @@ function HomePage() {
    return (
       <Box>
          <Stack
-            direction='row'
+            direction="row"
             spacing={2}
-            alignItems='center'
+            alignItems="center"
             sx={{ mt: 3, mb: 2, ml: 4 }}
          >
             <MovieFilterIcon sx={{ fontSize: 100 }} />
             <Typography
-               variant='h2'
+               variant="h2"
                sx={{ display: "flex", justifyContent: "flex-start" }}
             >
                Fits in Flicks
@@ -48,21 +48,23 @@ function HomePage() {
                   maxWidth: "500px",
                }}
             >
-               <Typography variant='h3'>
+               <Typography variant="h3">
                   Talk about and bring your favorite character's outfit to life!
                </Typography>
 
                <Box sx={{ display: "flex", gap: 2 }}>
                   <Button
-                     variant='contained'
-                     size='large'
+                     variant="contained"
+                     color="black"
+                     size="large"
                      onClick={handleClick}
                   >
                      Create An Account
                   </Button>
                   <Button
-                     variant='outlined'
-                     size='large'
+                     variant="contained"
+                     color="black"
+                     size="large"
                      onClick={handleClick2}
                   >
                      Login
