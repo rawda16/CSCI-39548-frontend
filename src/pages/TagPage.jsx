@@ -2,8 +2,9 @@ import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import { PostList } from "../components";
 import api from "../axiosConfig";
-import { Typography } from "@mui/material";
+import { Stack, Typography } from "@mui/material";
 import { Link as RouterLink } from "react-router-dom";
+import MovieFilterIcon from "@mui/icons-material/MovieFilter";
 
 function TagPage({ type }) {
    const { tag } = useParams();
@@ -46,15 +47,30 @@ function TagPage({ type }) {
 
    return (
       <>
-         <Typography
+         <Stack
+            direction='row'
+            spacing={2}
+            alignItems='center'
+            color='black'
+            sx={{
+               mt: 3,
+               mb: 2,
+               ml: 4,
+               cursor: "pointer",
+               textDecoration: "none",
+            }}
             component={RouterLink}
             to='/feed'
             variant='h2'
-            color='black'
-            sx={{ cursor: "pointer", textDecoration: "none" }}
          >
-            Fits in Flicks
-         </Typography>
+            <MovieFilterIcon sx={{ fontSize: 100 }} />
+            <Typography
+               variant='h2'
+               sx={{ display: "flex", justifyContent: "flex-start" }}
+            >
+               Fits in Flicks
+            </Typography>
+         </Stack>
 
          <Typography
             variant='h4'
