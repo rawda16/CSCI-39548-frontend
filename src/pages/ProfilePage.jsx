@@ -82,6 +82,19 @@ function ProfilePage() {
          >
             {username}
          </Typography>
+         {posts.length === 0 ? (
+            <Typography
+               sx={{
+                  textAlign: "center",
+                  marginTop: "40px",
+                  color: "gray",
+               }}
+            >
+               This user hasn’t posted anything yet.
+            </Typography>
+         ) : (
+            <PostList posts={posts} />
+         )}
 
          <PostList posts={posts} onDelete={handleDelete} />
       </>

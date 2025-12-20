@@ -54,7 +54,7 @@ export default function LoginForm() {
    return (
       <>
          {loggedIn ? (
-            <Typography variant='h5' align='center' sx={{ mt: 5 }}>
+            <Typography variant="h5" align="center" sx={{ mt: 5 }}>
                You're already logged in!
             </Typography>
          ) : (
@@ -67,7 +67,7 @@ export default function LoginForm() {
                   marginTop: 5,
                }}
             >
-               <Typography variant='h4' sx={{ textAlign: "center", mb: 3 }}>
+               <Typography variant="h4" sx={{ textAlign: "center", mb: 3 }}>
                   Login
                </Typography>
                <Formik
@@ -80,8 +80,8 @@ export default function LoginForm() {
                         <Stack spacing={2}>
                            <Field
                               as={TextField}
-                              name='email'
-                              label='Email'
+                              name="email"
+                              label="Email"
                               error={touched.email && !!errors.email}
                               helperText={touched.email && errors.email}
                               fullWidth
@@ -89,18 +89,19 @@ export default function LoginForm() {
 
                            <Field
                               as={TextField}
-                              name='password'
-                              label='Password'
-                              type='password'
+                              name="password"
+                              label="Password"
+                              type="password"
                               error={touched.password && !!errors.password}
                               helperText={touched.password && errors.password}
                               fullWidth
                            />
 
                            <Button
-                              type='submit'
-                              variant='contained'
-                              size='large'
+                              type="submit"
+                              color="secondary"
+                              variant="contained"
+                              size="large"
                               endIcon={<SendIcon />}
                               sx={{ alignSelf: "center", maxWidth: "200px" }}
                            >

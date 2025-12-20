@@ -11,6 +11,7 @@ function TagPage({ type }) {
    const [loading, setLoading] = useState(true);
 
    useEffect(() => {
+      // get posts of type of tag
       async function fetchTaggedPosts() {
          try {
             const response = await api.get(`/posts?${type}=${tag}`);
@@ -26,6 +27,7 @@ function TagPage({ type }) {
       fetchTaggedPosts();
    }, [tag, type]);
 
+   // loading screen
    if (loading) {
       return <Typography>Loading posts...</Typography>;
    }

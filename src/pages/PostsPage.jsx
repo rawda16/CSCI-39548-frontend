@@ -4,6 +4,7 @@ import api from "..//axiosConfig";
 import { Box, Button, Typography } from "@mui/material";
 import { useNavigate } from "react-router-dom";
 import MyProfile from "../components/MyProfile";
+import CreatePostButton from "../components/CreatePostButton";
 
 function PostsPage() {
    // posts need to be in order from newest to oldest
@@ -49,14 +50,8 @@ function PostsPage() {
    return (
       <Box sx={{ p: 1 }}>
          <Box sx={{ display: "flex" }}>
-            <Button
-               variant='contained'
-               color='black'
-               onClick={() => navigate(`/create`)}
-            >
-               Create a New Post
-            </Button>
-            <MyProfile />
+            {loggedIn && <CreatePostButton />}
+            {loggedIn && <MyProfile />}
             {loggedIn && <LogOut />}
          </Box>
 

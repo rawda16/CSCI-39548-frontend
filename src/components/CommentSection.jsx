@@ -8,6 +8,9 @@ function CommentSection({ postId }) {
    const [comments, setComments] = useState([]);
    const [newComment, setNewComment] = useState("");
 
+   // check if user is logged in
+   const isLoggedIn = Boolean(localStorage.getItem("user"));
+
    // get user
    const currentUserId = Number(localStorage.getItem("user"));
 
@@ -111,8 +114,8 @@ function CommentSection({ postId }) {
 
                {comment.authorId === currentUserId && (
                   <Button
-                     color='error'
-                     size='small'
+                     color="error"
+                     size="small"
                      onClick={() => handleDeleteComment(comment.id)}
                   >
                      Delete
@@ -121,25 +124,27 @@ function CommentSection({ postId }) {
             </div>
          ))}
 
-         <div style={{ marginTop: "20px" }}>
-            <TextField
-               fullWidth
-               multiline
-               rows={2}
-               placeholder='Add a comment...'
-               value={newComment}
-               onChange={(e) => setNewComment(e.target.value)}
-               sx={{ display: "flex", alignContent: "center" }}
-            />
+         {isLoggedIn && (
+            <div style={{ marginTop: "20px" }}>
+               <TextField
+                  fullWidth
+                  multiline
+                  rows={2}
+                  placeholder="Add a comment..."
+                  value={newComment}
+                  onChange={(e) => setNewComment(e.target.value)}
+                  sx={{ display: "flex", alignContent: "center" }}
+               />
 
-            <Button
-               variant='contained'
-               sx={{ marginTop: "10px" }}
-               onClick={handleAddComment}
-            >
-               Add Comment
-            </Button>
-         </div>
+               <Button
+                  variant="contained"
+                  sx={{ marginTop: "10px" }}
+                  onClick={handleAddComment}
+               >
+                  Add Comment
+               </Button>
+            </div>
+         )}
       </div>
    );
 }
