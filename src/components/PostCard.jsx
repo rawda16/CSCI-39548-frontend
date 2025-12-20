@@ -1,8 +1,5 @@
 import { useEffect, useState } from "react";
-import { Button, IconButton, Typography } from "@mui/material";
-import FavoriteBorderIcon from "@mui/icons-material/FavoriteBorder";
-import FavoriteIcon from "@mui/icons-material/Favorite";
-import EditPost from "./EditPost";
+import { Button, Typography } from "@mui/material";
 import { useNavigate } from "react-router-dom";
 
 function PostCard({
@@ -20,21 +17,10 @@ function PostCard({
 }) {
    const [author, setIsAuthor] = useState("");
    const navigate = useNavigate();
-
+   // user can click to view more detailed page of post + comments
    function handleClick() {
       navigate(`/feed/${id}`);
    }
-   // user should be able to navigate to posts with tag of their liking!
-
-   // to do: useState to handling the Likes button
-   /* 
-   liked = False;
-   const [count, setCount] = useState(0);
-   function handleClick() {
-      setCount(count + 1);
-      liked = True;
-   }
-      */
 
    // this chekcs if the post author is the current user and then rerends
    // when authorId changes so the delete button doesn't persist
@@ -65,7 +51,6 @@ function PostCard({
             borderBottom: "1px solid lightgray",
             gap: "5px",
          }}
-         onClick={handleClick}
       >
          <Typography variant="h5">{title}</Typography>
 
@@ -79,8 +64,17 @@ function PostCard({
             </Button>
          )}
          <Typography
-            sx={{ fontWeight: "bold", textDecoration: "underline" }}
+            sx={{
+               fontWeight: "bold",
+               textDecoration: "underline",
+               cursor: "pointer",
+               alignSelf: "flex-start",
+            }}
             variant="body1"
+            onClick={(e) => {
+               e.stopPropagation();
+               navigate(`/profile/${authorId}`);
+            }}
          >
             @{username}
          </Typography>
@@ -155,13 +149,14 @@ function PostCard({
                gap: "8px",
             }}
          >
-            <IconButton sx={{ borderRadius: "6px" }} color="error" size="small">
-               <FavoriteBorderIcon></FavoriteBorderIcon>
-               {likeCount}
-            </IconButton>
             <Button variant="contained" color="black" onClick={handleClick}>
                Comments {commentCount}
             </Button>
+            <div style={{ display: "flex", alignContent: "flex-end" }}>
+               <Button variant="contained" color="black" onClick={handleClick}>
+                  View Post
+               </Button>
+            </div>
          </div>
       </div>
    );

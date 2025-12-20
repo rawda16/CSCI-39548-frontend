@@ -27,7 +27,7 @@ function App() {
             path="/tags/period/:tag"
             element={<TagPage type="timePeriod" />}
          />
-         <Route path="user" element={<ProfilePage />} />
+         <Route path="/profile/:userId" element={<ProfilePage />} />
       </Routes>
    );
 }

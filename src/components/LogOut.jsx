@@ -14,7 +14,12 @@ function LogoutButton() {
    };
 
    return (
-      <Button onClick={handleLogout} variant='outlined' color='error'>
+      <Button
+         onClick={handleLogout}
+         variant="contained"
+         color="error"
+         sx={{ marginLeft: "auto" }}
+      >
          Logout
       </Button>
    );

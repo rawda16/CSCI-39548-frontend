@@ -181,10 +181,10 @@ function PostDetailPage() {
                   gap: "5px",
                }}
             >
-               <Typography variant='h5'>{post.title}</Typography>
+               <Typography variant="h5">{post.title}</Typography>
                <Typography
                   sx={{ fontWeight: "bold", textDecoration: "underline" }}
-                  variant='body1'
+                  variant="body1"
                >
                   {post.author.username}
                </Typography>
@@ -232,11 +232,26 @@ function PostDetailPage() {
                   }}
                >
                   {post.genre.map((tag) => (
-                     <Button variant='text' color='black' key={tag}>
+                     <Button
+                        variant="text"
+                        color="black"
+                        onClick={(e) => {
+                           e.stopPropagation;
+                           navigate(`/tags/genre/${tag}`);
+                        }}
+                        key={tag}
+                     >
                         {tag}
                      </Button>
                   ))}
-                  <Button variant='text' color='black'>
+                  <Button
+                     variant="text"
+                     color="black"
+                     onClick={(e) => {
+                        e.stopPropagation;
+                        navigate(`/tags/period/${periodTag}`);
+                     }}
+                  >
                      {post.timePeriod}
                   </Button>
                </div>
@@ -247,16 +262,9 @@ function PostDetailPage() {
                      gap: "8px",
                   }}
                >
-                  {/* <IconButton sx={{ borderRadius: "6px" }} color='error' size='small'>
-               <FavoriteBorderIcon></FavoriteBorderIcon>
-               {likeCount}
-            </IconButton>
-            <Button variant='contained' color='black'>
-               Comments {commentCount}
-            </Button> */}
                   {isAuthor && (
                      <Button
-                        variant='outlined'
+                        variant="outlined"
                         onClick={() => setEditing(true)}
                      >
                         Edit Post
@@ -264,8 +272,8 @@ function PostDetailPage() {
                   )}
                   {isAuthor && (
                      <Button
-                        variant='outlined'
-                        color='error'
+                        variant="outlined"
+                        color="error"
                         onClick={() => handleDelete(post.id)}
                      >
                         Delete Post

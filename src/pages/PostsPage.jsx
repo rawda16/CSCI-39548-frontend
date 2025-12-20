@@ -1,11 +1,14 @@
 import { useEffect, useState } from "react";
 import { LogOut, PostList } from "../components";
 import api from "..//axiosConfig";
-import { Box, Typography } from "@mui/material";
+import { Box, Button, Typography } from "@mui/material";
+import { useNavigate } from "react-router-dom";
+import MyProfile from "../components/MyProfile";
 
 function PostsPage() {
    // TO DO: posts need to be in order from newest to oldest
    // rn it's oldest to newest
+   const navigate = useNavigate();
 
    const [posts, setPosts] = useState([]);
 
@@ -45,7 +48,18 @@ function PostsPage() {
 
    return (
       <Box>
-         {loggedIn && <LogOut />}
+         <Box sx={{ display: "flex", gap: "4px" }}>
+            <Button
+               variant="contained"
+               color="black"
+               onClick={() => navigate(`/create`)}
+            >
+               Create a New Post
+            </Button>
+            <MyProfile />
+            {loggedIn && <LogOut />}
+         </Box>
+
          <PostList posts={posts} onDelete={handleDelete} />
       </Box>
    );

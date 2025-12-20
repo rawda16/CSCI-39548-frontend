@@ -1,8 +1,10 @@
 import { useEffect, useState } from "react";
 import { Box, Button, TextField, Typography } from "@mui/material";
 import api from "../axiosConfig";
+import { useNavigate } from "react-router-dom";
 
 function CommentSection({ postId }) {
+   const naviage = useNavigate();
    const [comments, setComments] = useState([]);
    const [newComment, setNewComment] = useState("");
 
@@ -71,7 +73,17 @@ function CommentSection({ postId }) {
             >
                <Box sx={{ width: "900px" }}>
                   <Typography
-                     sx={{ fontWeight: "bold", textDecoration: "underline" }}
+                     sx={{
+                        fontWeight: "bold",
+                        textDecoration: "underline",
+                        cursor: "pointer",
+                        alignSelf: "flex-start",
+                     }}
+                     variant="body1"
+                     onClick={(e) => {
+                        e.stopPropagation();
+                        navigate(`/profile/${authorId}`);
+                     }}
                   >
                      @{comment.author.username}
                   </Typography>
