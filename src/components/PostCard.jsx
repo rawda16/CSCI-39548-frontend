@@ -81,7 +81,7 @@ function PostCard({
             sx={{ fontWeight: "bold", textDecoration: "underline" }}
             variant='body1'
          >
-            {username}
+            @{username}
          </Typography>
          <div
             style={{

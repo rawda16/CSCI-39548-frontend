@@ -10,6 +10,7 @@ import {
    InputLabel,
    FormHelperText,
    Typography,
+   Stack,
 } from "@mui/material";
 import api from "../axiosConfig";
 import { useNavigate } from "react-router-dom";
@@ -83,7 +84,7 @@ function PostForm() {
          navigate("/feed");
       } catch (error) {
          if (error.message === "Image size exceeds 5MB limit") {
-            setFieldError("image", error.message);
+            alert(error.message);
          } else {
             alert("Error submitting post.");
          }
@@ -144,90 +145,99 @@ function PostForm() {
          >
             {({ errors, touched, values, setFieldValue }) => (
                <Form>
-                  <Field
-                     as={TextField}
-                     name='title'
-                     label='Title'
-                     error={touched.title && !!errors.title}
-                     helperText={touched.title && errors.title}
-                     fullWidth
-                  />
-
-                  <Field
-                     as={TextField}
-                     name='content'
-                     label='Content'
-                     multiline
-                     rows={4}
-                     error={touched.content && !!errors.content}
-                     helperText={touched.content && errors.content}
-                     fullWidth
-                  />
-
-                  <FormControl
-                     fullWidth
-                     error={touched.timePeriod && !!errors.timePeriod}
-                  >
-                     <InputLabel>Time Period</InputLabel>
-                     <Field as={Select} name='timePeriod' label='Time Period'>
-                        <MenuItem value='' disabled>
-                           Select a time period
-                        </MenuItem>
-                        {time_period_list.map((period) => (
-                           <MenuItem key={period} value={period}>
-                              {period}
-                           </MenuItem>
-                        ))}
-                     </Field>
-                     {touched.timePeriod && errors.timePeriod && (
-                        <FormHelperText>{errors.timePeriod}</FormHelperText>
-                     )}
-                  </FormControl>
-
-                  <FormControl
-                     fullWidth
-                     error={touched.genre && !!errors.genre}
-                  >
-                     <InputLabel>Genre</InputLabel>
+                  <Stack gap={1} sx={{}}>
                      <Field
-                        as={Select}
-                        name='genre'
-                        label='Genre'
-                        multiple
-                        value={values.genre}
-                        onChange={(e) => setFieldValue("genre", e.target.value)}
-                     >
-                        {movie_genre_list.map((genre) => (
-                           <MenuItem key={genre} value={genre}>
-                              {genre}
-                           </MenuItem>
-                        ))}
-                     </Field>
-                     {touched.genre && errors.genre && (
-                        <FormHelperText>{errors.genre}</FormHelperText>
-                     )}
-                  </FormControl>
-
-                  <Field
-                     as={TextField}
-                     name='movie'
-                     label='Movie'
-                     error={touched.movie && !!errors.movie}
-                     helperText={touched.movie && errors.movie}
-                     fullWidth
-                  />
-
-                  <FormControl fullWidth>
-                     <InputLabel shrink>Image *</InputLabel>
-                     <input
-                        type='file'
-                        accept='image/*'
-                        onChange={(e) => setImage(e.target.files)}
-                        required
+                        as={TextField}
+                        name='title'
+                        label='Title'
+                        error={touched.title && Boolean(errors.title)}
+                        helperText={touched.title && errors.title}
                      />
-                  </FormControl>
+                  </Stack>
 
-                  <Button type='submit' variant='contained' fullWidth>
+                  <Stack gap={1} sx={{}}>
+                     <Field
+                        as={TextField}
+                        name='content'
+                        label='Content'
+                        multiline
+                        rows={4}
+                        error={touched.content && Boolean(errors.content)}
+                        helperText={touched.content && errors.content}
+                     />
+                  </Stack>
+
+                  <Stack gap={1} sx={{}}>
+                     <FormControl
+                        error={touched.timePeriod && Boolean(errors.timePeriod)}
+                     >
+                        <InputLabel>Time Period</InputLabel>
+                        <Field
+                           as={Select}
+                           name='timePeriod'
+                           label='Time Period'
+                        >
+                           <MenuItem value='' disabled>
+                              Select a time period
+                           </MenuItem>
+                           {time_period_list.map((period) => (
+                              <MenuItem key={period} value={period}>
+                                 {period}
+                              </MenuItem>
+                           ))}
+                        </Field>
+                        {touched.timePeriod && errors.timePeriod && (
+                           <FormHelperText>{errors.timePeriod}</FormHelperText>
+                        )}
+                     </FormControl>
+
+                     <FormControl
+                        error={touched.genre && Boolean(errors.genre)}
+                     >
+                        <InputLabel>Genre</InputLabel>
+                        <Field
+                           as={Select}
+                           name='genre'
+                           label='Genre'
+                           multiple
+                           value={values.genre}
+                           onChange={(e) =>
+                              setFieldValue("genre", e.target.value)
+                           }
+                        >
+                           {movie_genre_list.map((genre) => (
+                              <MenuItem key={genre} value={genre}>
+                                 {genre}
+                              </MenuItem>
+                           ))}
+                        </Field>
+                        {touched.genre && errors.genre && (
+                           <FormHelperText>{errors.genre}</FormHelperText>
+                        )}
+                     </FormControl>
+
+                     <Field
+                        as={TextField}
+                        name='movie'
+                        label='Movie'
+                        error={touched.movie && Boolean(errors.movie)}
+                        helperText={touched.movie && errors.movie}
+                     />
+                  </Stack>
+
+                  <Stack gap={1} sx={{}}>
+                     <FormControl>
+                        <InputLabel shrink>Image *</InputLabel>
+                        <input
+                           type='file'
+                           accept='image/*'
+                           onChange={(e) => setImage(e.target.files)}
+                           required
+                        />
+                     </FormControl>
+                  </Stack>
+
+                  <Button type='submit' variant='contained'>
                      Submit
                   </Button>
                </Form>

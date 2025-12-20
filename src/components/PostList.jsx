@@ -19,7 +19,7 @@ function PostList({ posts, onDelete }) {
                periodTag={post.timePeriod}
                genreTags={post.genre}
                likeCount={post.likeCount}
-               commentCount={post.commentCount}
+               commentCount={post._count.comments}
                id={post.id}
                onDelete={onDelete}
                authorId={post.authorId}

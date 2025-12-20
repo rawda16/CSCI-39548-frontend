@@ -13,6 +13,7 @@ import {
 import api from "../axiosConfig";
 import { useNavigate } from "react-router-dom";
 
+// schema for editing post validation (no image validation)
 const EditPostSchema = Yup.object({
    title: Yup.string().required("Title is required"),
    content: Yup.string().required("Content is required"),
@@ -28,7 +29,7 @@ export default function EditPost({ post, id, onEdit }) {
 
    /* image here is still kept in a state because it is a file input and
     will be processed in the postdetailedpage when onEdit occurs, so we are
-    not using formik for it */
+    not using formik/yup for it */
    const [newImage, setNewImage] = useState(null);
 
    const time_period_list = [
@@ -91,9 +92,8 @@ export default function EditPost({ post, id, onEdit }) {
                      as={TextField}
                      name='title'
                      label='Title'
-                     error={touched.title && !!errors.title}
+                     error={touched.title && Boolean(errors.title)}
                      helperText={touched.title && errors.title}
-                     fullWidth
                   />
 
                   <Field
@@ -102,14 +102,12 @@ export default function EditPost({ post, id, onEdit }) {
                      label='Content'
                      multiline
                      rows={4}
-                     error={touched.content && !!errors.content}
+                     error={touched.content && Boolean(errors.content)}
                      helperText={touched.content && errors.content}
-                     fullWidth
                   />
 
                   <FormControl
-                     fullWidth
-                     error={touched.timePeriod && !!errors.timePeriod}
+                     error={touched.timePeriod && Boolean(errors.timePeriod)}
                   >
                      <InputLabel>Time Period</InputLabel>
                      <Field as={Select} name='timePeriod' label='Time Period'>
@@ -127,10 +125,7 @@ export default function EditPost({ post, id, onEdit }) {
                      )}
                   </FormControl>
 
-                  <FormControl
-                     fullWidth
-                     error={touched.genre && !!errors.genre}
-                  >
+                  <FormControl error={touched.genre && Boolean(errors.genre)}>
                      <InputLabel>Genre</InputLabel>
                      <Field
                         as={Select}
@@ -155,13 +150,12 @@ export default function EditPost({ post, id, onEdit }) {
                      as={TextField}
                      name='movie'
                      label='Movie'
-                     error={touched.movie && !!errors.movie}
+                     error={touched.movie && Boolean(errors.movie)}
                      helperText={touched.movie && errors.movie}
-                     fullWidth
                   />
 
-                  <FormControl fullWidth margin='normal'>
-                     <InputLabel shrink>Image</InputLabel>
+                  <FormControl>
+                     <InputLabel>Image</InputLabel>
                      <input
                         type='file'
                         accept='image/*'
@@ -169,7 +163,7 @@ export default function EditPost({ post, id, onEdit }) {
                      />
                   </FormControl>
 
-                  <Button type='submit' variant='contained' fullWidth>
+                  <Button type='submit' variant='contained'>
                      Submit
                   </Button>
                </Form>

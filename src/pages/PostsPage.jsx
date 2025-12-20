@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { LogOut, PostList } from "../components";
 import api from "..//axiosConfig";
+import { Box, Typography } from "@mui/material";
 
 function PostsPage() {
    // TO DO: posts need to be in order from newest to oldest
@@ -43,10 +44,10 @@ function PostsPage() {
    }
 
    return (
-      <>
+      <Box>
          {loggedIn && <LogOut />}
          <PostList posts={posts} onDelete={handleDelete} />
-      </>
+      </Box>
    );
 }
 
