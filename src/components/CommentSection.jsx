@@ -64,11 +64,12 @@ function CommentSection({ postId }) {
                style={{
                   width: "1000px",
                   display: "flex",
-                  justifyContent: "center",
+                  alignItems: "flex-start",
+                  gap: "12px",
                   marginBottom: "16px",
                }}
             >
-               <Box sx={{ gap: "4px" }}>
+               <Box sx={{ width: "900px" }}>
                   <Typography
                      sx={{ fontWeight: "bold", textDecoration: "underline" }}
                   >
@@ -81,6 +82,9 @@ function CommentSection({ postId }) {
                         borderRadius: "12px",
                         border: "1px solid #ddd",
                         backgroundColor: "white",
+                        overflowWrap: "break-word",
+                        wordBreak: "break-word",
+                        whiteSpace: "pre-wrap",
                      }}
                   >
                      {comment.content}

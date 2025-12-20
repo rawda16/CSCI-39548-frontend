@@ -34,12 +34,6 @@ function PostsPage() {
 
    return (
       <Box>
-         <Typography
-            variant="h2"
-            sx={{ display: "flex", justifyContent: "flex-start" }}
-         >
-            Fits in Flicks
-         </Typography>
          <PostList posts={posts} onDelete={handleDelete} />
       </Box>
    );

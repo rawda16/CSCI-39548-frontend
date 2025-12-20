@@ -154,6 +154,12 @@ function PostDetailPage() {
 
    return (
       <>
+         <Typography
+            variant="h2"
+            sx={{ display: "flex", justifyContent: "flex-start" }}
+         >
+            Fits in Flicks
+         </Typography>
          {editing ? (
             <EditPost post={post} id={id} onEdit={handleEdit} />
          ) : (
