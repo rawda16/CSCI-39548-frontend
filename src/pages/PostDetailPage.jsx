@@ -2,7 +2,8 @@ import { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { Link as RouterLink } from "react-router-dom";
 import api from "../axiosConfig";
-import { Button, IconButton, Typography } from "@mui/material";
+import { Box, Button, Stack, Typography } from "@mui/material";
+import MovieFilterIcon from "@mui/icons-material/MovieFilter";
 import { EditPost } from "../components";
 import axios from "axios";
 import CommentSection from "../components/CommentSection";
@@ -158,15 +159,31 @@ function PostDetailPage() {
 
    return (
       <>
-         <Typography
+         <Stack
+            direction="row"
+            spacing={2}
+            alignItems="center"
+            color="black"
+            sx={{
+               mt: 3,
+               mb: 2,
+               ml: 4,
+               cursor: "pointer",
+               textDecoration: "none",
+            }}
             component={RouterLink}
-            to='/feed'
-            variant='h2'
-            color='black'
-            sx={{ cursor: "pointer", textDecoration: "none" }}
+            to="/feed"
+            variant="h2"
          >
-            Fits in Flicks
-         </Typography>
+            <MovieFilterIcon sx={{ fontSize: 100 }} />
+            <Typography
+               variant="h2"
+               sx={{ display: "flex", justifyContent: "flex-start" }}
+            >
+               Fits in Flicks
+            </Typography>
+         </Stack>
+
          {editing ? (
             <EditPost post={post} id={id} onEdit={handleEdit} />
          ) : (
