@@ -24,6 +24,7 @@ function PostCard({
    function handleClick() {
       navigate(`/feed/${id}`);
    }
+   // user should be able to navigate to posts with tag of their liking!
 
    // to do: useState to handling the Likes button
    /* 
@@ -66,20 +67,20 @@ function PostCard({
          }}
          onClick={handleClick}
       >
-         <Typography variant='h5'>{title}</Typography>
+         <Typography variant="h5">{title}</Typography>
 
          {author && (
             <Button
-               variant='contained'
+               variant="contained"
                onClick={(e) => handleDelete(e, id)}
-               color='error'
+               color="error"
             >
                Delete
             </Button>
          )}
          <Typography
             sx={{ fontWeight: "bold", textDecoration: "underline" }}
-            variant='body1'
+            variant="body1"
          >
             @{username}
          </Typography>
@@ -130,11 +131,20 @@ function PostCard({
             }}
          >
             {genreTags.map((tag) => (
-               <Button variant='text' color='black' key={tag}>
+               <Button
+                  variant="text"
+                  color="black"
+                  onClick={() => navigate(`/tags/genre/${tag}`)}
+                  key={tag}
+               >
                   {tag}
                </Button>
             ))}
-            <Button variant='text' color='black'>
+            <Button
+               variant="text"
+               color="black"
+               onClick={() => navigate(`/tags/period/${periodTag}`)}
+            >
                {periodTag}
             </Button>
          </div>
@@ -145,11 +155,11 @@ function PostCard({
                gap: "8px",
             }}
          >
-            <IconButton sx={{ borderRadius: "6px" }} color='error' size='small'>
+            <IconButton sx={{ borderRadius: "6px" }} color="error" size="small">
                <FavoriteBorderIcon></FavoriteBorderIcon>
                {likeCount}
             </IconButton>
-            <Button variant='contained' color='black' onClick={handleClick}>
+            <Button variant="contained" color="black" onClick={handleClick}>
                Comments {commentCount}
             </Button>
          </div>
