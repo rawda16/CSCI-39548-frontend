@@ -1,8 +1,9 @@
 import { Formik, Form, Field } from "formik";
 import * as Yup from "yup";
-import { TextField, Button, Typography } from "@mui/material";
+import { TextField, Button, Typography, Paper, Stack } from "@mui/material";
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
+import SendIcon from "@mui/icons-material/Send";
 
 // Validation rules
 const RegisterSchema = Yup.object({
@@ -55,77 +56,106 @@ export default function RegisterForm() {
    return (
       <>
          {loggedIn ? (
-            <Typography> You're already logged in!</Typography>
+            <Typography variant='h5' align='center' sx={{ mt: 5 }}>
+               You're already logged in!
+            </Typography>
          ) : (
-            <Formik
-               initialValues={{
-                  displayName: "",
-                  username: "",
-                  email: "",
-                  password: "",
-                  confirmPassword: "",
+            <Paper
+               elevation={3}
+               sx={{
+                  padding: 4,
+                  maxWidth: 500,
+                  margin: "auto",
+                  marginTop: 5,
                }}
-               validationSchema={RegisterSchema}
-               onSubmit={handleSubmit}
             >
-               {({ errors, touched }) => (
-                  <Form>
-                     <Field
-                        as={TextField}
-                        name='displayName'
-                        label='Display Name'
-                        error={touched.displayName && !!errors.displayName}
-                        helperText={touched.displayName && errors.displayName}
-                        fullWidth
-                     />
+               <Typography variant='h4' sx={{ textAlign: "center", mb: 3 }}>
+                  Create an Account!
+               </Typography>
+               <Formik
+                  initialValues={{
+                     displayName: "",
+                     username: "",
+                     email: "",
+                     password: "",
+                     confirmPassword: "",
+                  }}
+                  validationSchema={RegisterSchema}
+                  onSubmit={handleSubmit}
+               >
+                  {({ errors, touched }) => (
+                     <Form>
+                        <Stack spacing={2}>
+                           <Field
+                              as={TextField}
+                              name='displayName'
+                              label='Display Name'
+                              error={
+                                 touched.displayName && !!errors.displayName
+                              }
+                              helperText={
+                                 touched.displayName && errors.displayName
+                              }
+                              fullWidth
+                           />
 
-                     <Field
-                        as={TextField}
-                        name='username'
-                        label='Username'
-                        error={touched.username && !!errors.username}
-                        helperText={touched.username && errors.username}
-                        fullWidth
-                     />
-                     <Field
-                        as={TextField}
-                        name='email'
-                        label='Email'
-                        error={touched.email && !!errors.email}
-                        helperText={touched.email && errors.email}
-                        fullWidth
-                     />
+                           <Field
+                              as={TextField}
+                              name='username'
+                              label='Username'
+                              error={touched.username && !!errors.username}
+                              helperText={touched.username && errors.username}
+                              fullWidth
+                           />
+                           <Field
+                              as={TextField}
+                              name='email'
+                              label='Email'
+                              error={touched.email && !!errors.email}
+                              helperText={touched.email && errors.email}
+                              fullWidth
+                           />
 
-                     <Field
-                        as={TextField}
-                        name='password'
-                        label='Password'
-                        type='password'
-                        error={touched.password && !!errors.password}
-                        helperText={touched.password && errors.password}
-                        fullWidth
-                     />
+                           <Field
+                              as={TextField}
+                              name='password'
+                              label='Password'
+                              type='password'
+                              error={touched.password && !!errors.password}
+                              helperText={touched.password && errors.password}
+                              fullWidth
+                           />
 
-                     <Field
-                        as={TextField}
-                        name='confirmPassword'
-                        label='Confirm Password'
-                        type='password'
-                        error={
-                           touched.confirmPassword && !!errors.confirmPassword
-                        }
-                        helperText={
-                           touched.confirmPassword && errors.confirmPassword
-                        }
-                        fullWidth
-                     />
+                           <Field
+                              as={TextField}
+                              name='confirmPassword'
+                              label='Confirm Password'
+                              type='password'
+                              error={
+                                 touched.confirmPassword &&
+                                 !!errors.confirmPassword
+                              }
+                              helperText={
+                                 touched.confirmPassword &&
+                                 errors.confirmPassword
+                              }
+                              fullWidth
+                           />
 
-                     <Button type='submit' variant='contained'>
-                        Register
-                     </Button>
-                  </Form>
-               )}
-            </Formik>
+                           <Button
+                              type='submit'
+                              variant='contained'
+                              size='large'
+                              endIcon={<SendIcon />}
+                              sx={{ alignSelf: "center", maxWidth: "200px" }}
+                           >
+                              Register
+                           </Button>
+                        </Stack>
+                     </Form>
+                  )}
+               </Formik>
+            </Paper>
          )}
       </>
    );

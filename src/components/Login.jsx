@@ -1,8 +1,9 @@
 import { Formik, Form, Field } from "formik";
 import * as Yup from "yup";
-import { TextField, Button, Typography } from "@mui/material";
+import { TextField, Button, Typography, Paper, Stack } from "@mui/material";
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
+import SendIcon from "@mui/icons-material/Send";
 
 const LoginSchema = Yup.object({
    email: Yup.string().required("Required"),
@@ -55,38 +56,59 @@ export default function LoginForm() {
          {loggedIn ? (
             <Typography>You're already logged in!</Typography>
          ) : (
-            <Formik
-               initialValues={{ email: "", password: "" }}
-               validationSchema={LoginSchema}
-               onSubmit={handleSubmit}
+            <Paper
+               elevation={3}
+               sx={{
+                  padding: 4,
+                  maxWidth: 300,
+                  margin: "auto",
+                  marginTop: 5,
+               }}
             >
-               {({ errors, touched }) => (
-                  <Form>
-                     <Field
-                        as={TextField}
-                        name='email'
-                        label='Email'
-                        error={touched.email && !!errors.email}
-                        helperText={touched.email && errors.email}
-                        fullWidth
-                     />
+               <Typography variant='h4' sx={{ textAlign: "center", mb: 3 }}>
+                  Login
+               </Typography>
+               <Formik
+                  initialValues={{ email: "", password: "" }}
+                  validationSchema={LoginSchema}
+                  onSubmit={handleSubmit}
+               >
+                  {({ errors, touched }) => (
+                     <Form>
+                        <Stack spacing={2}>
+                           <Field
+                              as={TextField}
+                              name='email'
+                              label='Email'
+                              error={touched.email && !!errors.email}
+                              helperText={touched.email && errors.email}
+                              fullWidth
+                           />
 
-                     <Field
-                        as={TextField}
-                        name='password'
-                        label='Password'
-                        type='password'
-                        error={touched.password && !!errors.password}
-                        helperText={touched.password && errors.password}
-                        fullWidth
-                     />
+                           <Field
+                              as={TextField}
+                              name='password'
+                              label='Password'
+                              type='password'
+                              error={touched.password && !!errors.password}
+                              helperText={touched.password && errors.password}
+                              fullWidth
+                           />
 
-                     <Button type='submit' variant='contained'>
-                        Login
-                     </Button>
-                  </Form>
-               )}
-            </Formik>
+                           <Button
+                              type='submit'
+                              variant='contained'
+                              size='large'
+                              endIcon={<SendIcon />}
+                              sx={{ alignSelf: "center", maxWidth: "200px" }}
+                           >
+                              Login
+                           </Button>
+                        </Stack>
+                     </Form>
+                  )}
+               </Formik>
+            </Paper>
          )}
       </>
    );
