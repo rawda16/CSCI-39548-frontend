@@ -64,22 +64,22 @@ function PostCard({
             gap: "5px",
          }}
       >
-         <Typography variant='h5'>{title}</Typography>
+         <Typography variant="h5">{title}</Typography>
 
          {author && (
             <Button
-               variant='contained'
+               variant="contained"
                onClick={() => handleDelete(id)}
-               color='error'
+               color="error"
             >
                Delete
             </Button>
          )}
          <Typography
             sx={{ fontWeight: "bold", textDecoration: "underline" }}
-            variant='body1'
+            variant="body1"
          >
-            {username}
+            @{username}
          </Typography>
          <div
             style={{
@@ -128,11 +128,11 @@ function PostCard({
             }}
          >
             {genreTags.map((tag) => (
-               <Button variant='text' color='black' key={tag}>
+               <Button variant="text" color="black" key={tag}>
                   {tag}
                </Button>
             ))}
-            <Button variant='text' color='black'>
+            <Button variant="text" color="black">
                {periodTag}
             </Button>
          </div>
@@ -143,11 +143,11 @@ function PostCard({
                gap: "8px",
             }}
          >
-            <IconButton sx={{ borderRadius: "6px" }} color='error' size='small'>
+            <IconButton sx={{ borderRadius: "6px" }} color="error" size="small">
                <FavoriteBorderIcon></FavoriteBorderIcon>
                {likeCount}
             </IconButton>
-            <Button variant='contained' color='black' onClick={handleClick}>
+            <Button variant="contained" color="black" onClick={handleClick}>
                Comments {commentCount}
             </Button>
          </div>

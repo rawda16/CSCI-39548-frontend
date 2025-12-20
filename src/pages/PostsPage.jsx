@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { PostList } from "../components";
 import api from "..//axiosConfig";
+import { Box, Typography } from "@mui/material";
 
 function PostsPage() {
    // TO DO: posts need to be in order from newest to oldest
@@ -31,7 +32,17 @@ function PostsPage() {
       }
    }
 
-   return <PostList posts={posts} onDelete={handleDelete} />;
+   return (
+      <Box>
+         <Typography
+            variant="h2"
+            sx={{ display: "flex", justifyContent: "flex-start" }}
+         >
+            Fits in Flicks
+         </Typography>
+         <PostList posts={posts} onDelete={handleDelete} />
+      </Box>
+   );
 }
 
 export default PostsPage;

@@ -1,10 +1,13 @@
 import { useEffect, useState } from "react";
-import { Button, TextField, Typography } from "@mui/material";
+import { Box, Button, TextField, Typography } from "@mui/material";
 import api from "../axiosConfig";
 
-function CommentSection({ postId, currentUserId }) {
+function CommentSection({ postId }) {
    const [comments, setComments] = useState([]);
    const [newComment, setNewComment] = useState("");
+
+   // get user
+   const currentUserId = Number(localStorage.getItem("user"));
 
    // fetch comments
    const fetchComments = async () => {
@@ -45,19 +48,44 @@ function CommentSection({ postId, currentUserId }) {
       }
    };
 
+   // view comments
    return (
-      <div style={{ marginTop: "40px", width: "900px" }}>
+      <div
+         style={{
+            marginTop: "40px",
+            width: "1000px",
+            marginLeft: "auto",
+            marginRight: "auto",
+         }}
+      >
          {comments.map((comment) => (
             <div
                key={comment.id}
                style={{
-                  borderBottom: "1px solid #ddd",
-                  padding: "10px 0",
+                  width: "1000px",
                   display: "flex",
-                  justifyContent: "space-between",
+                  justifyContent: "center",
+                  marginBottom: "16px",
                }}
             >
-               <Typography>{comment.content}</Typography>
+               <Box sx={{ gap: "4px" }}>
+                  <Typography
+                     sx={{ fontWeight: "bold", textDecoration: "underline" }}
+                  >
+                     @{comment.author.username}
+                  </Typography>
+                  <Typography
+                     sx={{
+                        width: "900px",
+                        padding: "20px",
+                        borderRadius: "12px",
+                        border: "1px solid #ddd",
+                        backgroundColor: "white",
+                     }}
+                  >
+                     {comment.content}
+                  </Typography>
+               </Box>
 
                {comment.authorId === currentUserId && (
                   <Button
@@ -79,6 +107,7 @@ function CommentSection({ postId, currentUserId }) {
                placeholder="Add a comment..."
                value={newComment}
                onChange={(e) => setNewComment(e.target.value)}
+               sx={{ display: "flex", alignContent: "center" }}
             />
 
             <Button
