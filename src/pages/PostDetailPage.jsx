@@ -48,14 +48,12 @@ function PostDetailPage() {
       if (!post) {
          return;
       }
-      console.log(localStorage);
 
       setIsAuthor(post.authorId === Number(localStorage.getItem("user")));
    }
 
    // handle deleting the post
    async function handleDelete(id) {
-      console.log("Deleting post with id:", id);
       try {
          await api.delete(`/post/${id}`);
          alert("Post deleted successfully!");
@@ -111,7 +109,6 @@ function PostDetailPage() {
          // sending post request to upload data
          const response = await api.put(`/posts/${id}`, data);
 
-         console.log("Post editted successfully:", response.data);
          alert("Post editted successfully!");
 
          setPost(response.data);
@@ -148,7 +145,6 @@ function PostDetailPage() {
             `https://api.cloudinary.com/v1_1/${CLOUD_NAME}/image/upload`,
             formData
          );
-         console.log("Cloudinary response:", response);
 
          return response.data.secure_url;
       } catch (error) {

@@ -77,7 +77,6 @@ export default function PostForm() {
          // sending post request to upload data
          const response = await api.post("/post", data);
 
-         console.log("Post submitted successfully:", response.data);
          alert("Post submitted successfully!");
 
          // reseting form
@@ -123,7 +122,6 @@ export default function PostForm() {
             `https://api.cloudinary.com/v1_1/${CLOUD_NAME}/image/upload`,
             formData
          );
-         console.log("Cloudinary response:", response);
 
          return response.data.secure_url;
       } catch (error) {

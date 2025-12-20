@@ -22,8 +22,8 @@ function PostCard({
       navigate(`/feed/${id}`);
    }
 
-   // this chekcs if the post author is the current user and then rerends
-   // when authorId changes so the delete button doesn't persist
+   /* this checks if the post author is the current user and then rerends
+   when authorId changes so the delete button doesn't persist */
    useEffect(() => {
       postAuthorIsUser();
    }, [authorId]);
@@ -35,7 +35,6 @@ function PostCard({
 
    const handleDelete = (e, id) => {
       e.stopPropagation();
-      console.log("Delete post with id:", id);
       onDelete(id);
    };
 

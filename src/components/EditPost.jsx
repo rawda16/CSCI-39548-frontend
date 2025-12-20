@@ -29,9 +29,7 @@ const EditPostSchema = Yup.object({
 });
 
 export default function EditPost({ post, id, onEdit }) {
-   console.log("Editing post:", post);
-
-   /* image here is still kept in a state because it is a file input and
+   /* image is still kept in a state because it is a file input and
     will be processed in the postdetailedpage when onEdit occurs, so we are
     not using formik/yup for it */
    const [newImage, setNewImage] = useState(null);
@@ -64,8 +62,6 @@ export default function EditPost({ post, id, onEdit }) {
    ];
 
    const handleSubmit = async (values) => {
-      console.log("Submitting edited post with values:", values);
-
       onEdit(
          id,
          values.title,
