@@ -2,8 +2,9 @@ import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import { LogOut, PostList } from "../components";
 import api from "../axiosConfig";
-import { Typography } from "@mui/material";
+import { Stack, Typography } from "@mui/material";
 import { Link as RouterLink } from "react-router-dom";
+import MovieFilterIcon from "@mui/icons-material/MovieFilter";
 
 function ProfilePage() {
    const { userId } = useParams();
@@ -38,15 +39,30 @@ function ProfilePage() {
 
    return (
       <>
-         <Typography
+         <Stack
+            direction="row"
+            spacing={2}
+            alignItems="center"
+            color="black"
+            sx={{
+               mt: 3,
+               mb: 2,
+               ml: 4,
+               cursor: "pointer",
+               textDecoration: "none",
+            }}
             component={RouterLink}
             to="/feed"
             variant="h2"
-            color="black"
-            sx={{ textDecoration: "none", cursor: "pointer" }}
          >
-            Fits in Flicks
-         </Typography>
+            <MovieFilterIcon sx={{ fontSize: 100 }} />
+            <Typography
+               variant="h2"
+               sx={{ display: "flex", justifyContent: "flex-start" }}
+            >
+               Fits in Flicks
+            </Typography>
+         </Stack>
 
          <Typography
             variant="h4"
