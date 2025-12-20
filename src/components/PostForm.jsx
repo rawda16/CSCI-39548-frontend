@@ -266,15 +266,7 @@ export default function PostForm() {
                         </Grid>
                      </Grid>
 
-                     <FormControl
-                        fullWidth
-                        sx={{
-                           border: "1px solid",
-                           borderColor: "divider",
-                           borderRadius: 1,
-                           padding: 1,
-                        }}
-                     >
+                     <FormControl>
                         <InputLabel shrink>Image *</InputLabel>
                         <input
                            type='file'
@@ -282,7 +274,7 @@ export default function PostForm() {
                            onChange={(e) => setImage(e.target.files)}
                            required
                            style={{
-                              marginTop: 20,
+                              marginTop: 10,
                               marginLeft: 8,
                            }}
                         />
