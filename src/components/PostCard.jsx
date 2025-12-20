@@ -3,6 +3,7 @@ import { Button, IconButton, Typography } from "@mui/material";
 import FavoriteBorderIcon from "@mui/icons-material/FavoriteBorder";
 import FavoriteIcon from "@mui/icons-material/Favorite";
 import EditPost from "./EditPost";
+import { useNavigate } from "react-router-dom";
 
 function PostCard({
    username,
@@ -15,6 +16,12 @@ function PostCard({
    commentCount = 0,
    id,
 }) {
+   const navigate = useNavigate();
+
+   function handleClick() {
+      navigate(`/feed/${id}`);
+   }
+
    // to do: useState to handling the Likes button
    /* 
    liked = False;
@@ -37,10 +44,10 @@ function PostCard({
             gap: "5px",
          }}
       >
-         <Typography variant='h5'>{title}</Typography>
+         <Typography variant="h5">{title}</Typography>
          <Typography
             sx={{ fontWeight: "bold", textDecoration: "underline" }}
-            variant='body1'
+            variant="body1"
          >
             {username}
          </Typography>
@@ -91,11 +98,11 @@ function PostCard({
             }}
          >
             {genreTags.map((tag) => (
-               <Button variant='text' color='black' key={tag}>
+               <Button variant="text" color="black" key={tag}>
                   {tag}
                </Button>
             ))}
-            <Button variant='text' color='black'>
+            <Button variant="text" color="black">
                {periodTag}
             </Button>
          </div>
@@ -106,11 +113,11 @@ function PostCard({
                gap: "8px",
             }}
          >
-            <IconButton sx={{ borderRadius: "6px" }} color='error' size='small'>
+            <IconButton sx={{ borderRadius: "6px" }} color="error" size="small">
                <FavoriteBorderIcon></FavoriteBorderIcon>
                {likeCount}
             </IconButton>
-            <Button variant='contained' color='black'>
+            <Button variant="contained" color="black" onClick={handleClick}>
                Comments {commentCount}
             </Button>
          </div>

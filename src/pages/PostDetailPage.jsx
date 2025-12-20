@@ -1,9 +1,10 @@
-import { use, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import api from "../axiosConfig";
 import { Button, IconButton, Typography } from "@mui/material";
 import { EditPost } from "../components";
 import axios from "axios";
+import CommentSection from "../components/CommentSection";
 
 function PostDetailPage() {
    const { id } = useParams();
@@ -158,10 +159,10 @@ function PostDetailPage() {
                   gap: "5px",
                }}
             >
-               <Typography variant='h5'>{post.title}</Typography>
+               <Typography variant="h5">{post.title}</Typography>
                <Typography
                   sx={{ fontWeight: "bold", textDecoration: "underline" }}
-                  variant='body1'
+                  variant="body1"
                >
                   {post.author.username}
                </Typography>
@@ -192,11 +193,8 @@ function PostDetailPage() {
                >
                   <Typography
                      style={{
-                        display: "-webkit-box",
-                        WebkitLineClamp: 4,
-                        WebkitBoxOrient: "vertical",
-                        overflow: "hidden",
-                        textOverflow: "ellipsis",
+                        display: "flex",
+
                         textAlign: "left",
                         color: "black",
                         margin: 0,
@@ -212,11 +210,11 @@ function PostDetailPage() {
                   }}
                >
                   {post.genre.map((tag) => (
-                     <Button variant='text' color='black' key={tag}>
+                     <Button variant="text" color="black" key={tag}>
                         {tag}
                      </Button>
                   ))}
-                  <Button variant='text' color='black'>
+                  <Button variant="text" color="black">
                      {post.timePeriod}
                   </Button>
                </div>
@@ -236,13 +234,14 @@ function PostDetailPage() {
             </Button> */}
                   {isAuthor && (
                      <Button
-                        variant='outlined'
+                        variant="outlined"
                         onClick={() => setEditing(true)}
                      >
                         Edit Post
                      </Button>
                   )}
                </div>
+               <CommentSection postId={id} />
             </div>
          )}
       </>
