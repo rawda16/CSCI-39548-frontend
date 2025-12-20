@@ -46,7 +46,8 @@ function PostCard({
       setIsAuthor(authorId === Number(localStorage.getItem("user")));
    }
 
-   const handleDelete = (id) => {
+   const handleDelete = (e, id) => {
+      e.stopPropagation();
       console.log("Delete post with id:", id);
       onDelete(id);
    };
@@ -63,13 +64,14 @@ function PostCard({
             borderBottom: "1px solid lightgray",
             gap: "5px",
          }}
+         onClick={handleClick}
       >
          <Typography variant='h5'>{title}</Typography>
 
          {author && (
             <Button
                variant='contained'
-               onClick={() => handleDelete(id)}
+               onClick={(e) => handleDelete(e, id)}
                color='error'
             >
                Delete

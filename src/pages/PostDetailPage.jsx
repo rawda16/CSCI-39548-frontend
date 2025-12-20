@@ -46,12 +46,14 @@ function PostDetailPage() {
       if (!post) {
          return;
       }
+      console.log(localStorage);
 
       setIsAuthor(post.authorId === Number(localStorage.getItem("user")));
    }
 
    // handle deleting the post
    async function handleDelete(id) {
+      console.log("Deleting post with id:", id);
       try {
          await api.delete(`/post/${id}`);
          alert("Post deleted successfully!");
@@ -115,9 +117,9 @@ function PostDetailPage() {
          if (error.message === "Image size exceeds 5MB limit") {
             alert(error.message);
          } else {
-            alert("Error submitting post.");
+            alert("Error editting post.");
          }
-         console.error("Error submitting post:", error);
+         console.error("Error editting post:", error);
       }
    };
 
@@ -169,10 +171,10 @@ function PostDetailPage() {
                   gap: "5px",
                }}
             >
-               <Typography variant="h5">{post.title}</Typography>
+               <Typography variant='h5'>{post.title}</Typography>
                <Typography
                   sx={{ fontWeight: "bold", textDecoration: "underline" }}
-                  variant="body1"
+                  variant='body1'
                >
                   {post.author.username}
                </Typography>
@@ -220,11 +222,11 @@ function PostDetailPage() {
                   }}
                >
                   {post.genre.map((tag) => (
-                     <Button variant="text" color="black" key={tag}>
+                     <Button variant='text' color='black' key={tag}>
                         {tag}
                      </Button>
                   ))}
-                  <Button variant="text" color="black">
+                  <Button variant='text' color='black'>
                      {post.timePeriod}
                   </Button>
                </div>
@@ -244,7 +246,7 @@ function PostDetailPage() {
             </Button> */}
                   {isAuthor && (
                      <Button
-                        variant="outlined"
+                        variant='outlined'
                         onClick={() => setEditing(true)}
                      >
                         Edit Post
@@ -252,8 +254,8 @@ function PostDetailPage() {
                   )}
                   {isAuthor && (
                      <Button
-                        variant="outlined"
-                        color="error"
+                        variant='outlined'
+                        color='error'
                         onClick={() => handleDelete(post.id)}
                      >
                         Delete Post

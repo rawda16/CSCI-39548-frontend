@@ -1,16 +1,35 @@
 import { useState } from "react";
-import api from "..//axiosConfig";
+import { Formik, Form, Field } from "formik";
+import * as Yup from "yup";
+import {
+   TextField,
+   Button,
+   Select,
+   MenuItem,
+   FormControl,
+   InputLabel,
+   FormHelperText,
+} from "@mui/material";
+import api from "../axiosConfig";
 import { useNavigate } from "react-router-dom";
 
-function EditPost({ post, id, onEdit }) {
+const EditPostSchema = Yup.object({
+   title: Yup.string().required("Title is required"),
+   content: Yup.string().required("Content is required"),
+   timePeriod: Yup.string().required("Time period is required"),
+   genre: Yup.array()
+      .min(1, "Select at least one genre")
+      .required("Genre is required"),
+   movie: Yup.string().required("Movie is required"),
+});
+
+export default function EditPost({ post, id, onEdit }) {
    console.log("Editing post:", post);
-   const [newTitle, setTitle] = useState(post.title);
-   const [newContent, setContent] = useState(post.content);
-   const [newTimePeriod, setTimePeriod] = useState(post.timePeriod);
-   const [newGenre, setGenre] = useState(post.genre);
-   const [newMovie, setMovie] = useState(post.movie);
-   const [newImageUrl, setImageUrl] = useState(post.image_url);
-   const [newImage, setImage] = useState(null);
+
+   /* image here is still kept in a state because it is a file input and
+    will be processed in the postdetailedpage when onEdit occurs, so we are
+    not using formik for it */
+   const [newImage, setNewImage] = useState(null);
 
    const time_period_list = [
       "1920s",
@@ -25,6 +44,7 @@ function EditPost({ post, id, onEdit }) {
       "2010s",
       "2020s",
    ];
+
    const movie_genre_list = [
       "Action",
       "Romance",
@@ -38,123 +58,123 @@ function EditPost({ post, id, onEdit }) {
       "Sci-fi",
    ];
 
-   const handleSubmit = async (e) => {
-      e.preventDefault();
+   const handleSubmit = async (values) => {
+      console.log("Submitting edited post with values:", values);
 
       onEdit(
          id,
-         newTitle,
-         newContent,
-         newTimePeriod,
-         newGenre,
-         newMovie,
+         values.title,
+         values.content,
+         values.timePeriod,
+         values.genre,
+         values.movie,
          newImage
       );
    };
 
-   const handleGenreChange = (e) => {
-      // since genre is a multi-select, we need to get the selected options and put them in an array
-      const selectedOptions = Array.from(e.target.selectedOptions).map(
-         (option) => option.value
-      );
-      setGenre(selectedOptions);
-   };
-
    return (
       <div>
-         <form onSubmit={handleSubmit}>
-            <div>
-               <label htmlFor='title'>
-                  <span>Title</span>
-               </label>
-               <input
-                  id='title'
-                  type='text'
-                  value={newTitle}
-                  onChange={(e) => setTitle(e.target.value)}
-                  required
-               />
-            </div>
+         <Formik
+            initialValues={{
+               title: post.title || "",
+               content: post.content || "",
+               timePeriod: post.timePeriod || "",
+               genre: post.genre || [],
+               movie: post.movie || "",
+            }}
+            validationSchema={EditPostSchema}
+            onSubmit={handleSubmit}
+         >
+            {({ errors, touched, values, setFieldValue }) => (
+               <Form>
+                  <Field
+                     as={TextField}
+                     name='title'
+                     label='Title'
+                     error={touched.title && !!errors.title}
+                     helperText={touched.title && errors.title}
+                     fullWidth
+                  />
 
-            <div>
-               <label htmlFor='content'>
-                  <span>Content</span>
-               </label>
-               <textarea
-                  id='content'
-                  value={newContent}
-                  onChange={(e) => setContent(e.target.value)}
-                  required
-               ></textarea>
-            </div>
+                  <Field
+                     as={TextField}
+                     name='content'
+                     label='Content'
+                     multiline
+                     rows={4}
+                     error={touched.content && !!errors.content}
+                     helperText={touched.content && errors.content}
+                     fullWidth
+                  />
 
-            <div>
-               <label htmlFor='timePeriod'>
-                  <span>Time Period</span>
-               </label>
-               <select
-                  id='timePeriod'
-                  value={newTimePeriod}
-                  onChange={(e) => {
-                     setTimePeriod(e.target.value);
-                  }}
-                  required
-               >
-                  <option value='' disabled>
-                     Select a time period
-                  </option>
-                  {time_period_list.map((period) => (
-                     <option key={period} value={period}>
-                        {period}
-                     </option>
-                  ))}
-               </select>
+                  <FormControl
+                     fullWidth
+                     error={touched.timePeriod && !!errors.timePeriod}
+                  >
+                     <InputLabel>Time Period</InputLabel>
+                     <Field as={Select} name='timePeriod' label='Time Period'>
+                        <MenuItem value='' disabled>
+                           Select a time period
+                        </MenuItem>
+                        {time_period_list.map((period) => (
+                           <MenuItem key={period} value={period}>
+                              {period}
+                           </MenuItem>
+                        ))}
+                     </Field>
+                     {touched.timePeriod && errors.timePeriod && (
+                        <FormHelperText>{errors.timePeriod}</FormHelperText>
+                     )}
+                  </FormControl>
 
-               <label htmlFor='genre'>
-                  <span>Genre</span>
-               </label>
-               <select
-                  id='genre'
-                  value={newGenre}
-                  onChange={handleGenreChange}
-                  required
-                  multiple
-               >
-                  {movie_genre_list.map((genre) => (
-                     <option key={genre} value={genre}>
-                        {genre}
-                     </option>
-                  ))}
-               </select>
+                  <FormControl
+                     fullWidth
+                     error={touched.genre && !!errors.genre}
+                  >
+                     <InputLabel>Genre</InputLabel>
+                     <Field
+                        as={Select}
+                        name='genre'
+                        label='Genre'
+                        multiple
+                        value={values.genre}
+                        onChange={(e) => setFieldValue("genre", e.target.value)}
+                     >
+                        {movie_genre_list.map((genre) => (
+                           <MenuItem key={genre} value={genre}>
+                              {genre}
+                           </MenuItem>
+                        ))}
+                     </Field>
+                     {touched.genre && errors.genre && (
+                        <FormHelperText>{errors.genre}</FormHelperText>
+                     )}
+                  </FormControl>
 
-               <label htmlFor='movie'>
-                  <span>Movie</span>
-               </label>
-               <input
-                  id='movie'
-                  type='text'
-                  value={newMovie}
-                  onChange={(e) => setMovie(e.target.value)}
-                  required
-               />
-            </div>
+                  <Field
+                     as={TextField}
+                     name='movie'
+                     label='Movie'
+                     error={touched.movie && !!errors.movie}
+                     helperText={touched.movie && errors.movie}
+                     fullWidth
+                  />
 
-            <div>
-               <label htmlFor='image'>
-                  <span>Image</span>
-               </label>
-               <input
-                  id='image'
-                  type='file'
-                  accept='image/*'
-                  onChange={(e) => setImage(e.target.files)}
-               />
-            </div>
+                  <FormControl fullWidth margin='normal'>
+                     <InputLabel shrink>Image</InputLabel>
+                     <input
+                        type='file'
+                        accept='image/*'
+                        onChange={(e) => setNewImage(e.target.files)}
+                     />
+                  </FormControl>
 
-            <button type='submit'>Submit</button>
-         </form>
+                  <Button type='submit' variant='contained' fullWidth>
+                     Submit
+                  </Button>
+               </Form>
+            )}
+         </Formik>
       </div>
    );
 }
-
-export default EditPost;

@@ -4,3 +4,4 @@ export { default as PostForm } from "./PostForm";
 export { default as Signup } from "./Signup";
 export { default as Login } from "./Login";
 export { default as EditPost } from "./EditPost";
+export { default as LogOut } from "./LogOut";

@@ -1,17 +1,32 @@
 import { useState } from "react";
-import api from "..//axiosConfig";
+import { Formik, Form, Field } from "formik";
+import * as Yup from "yup";
+import {
+   TextField,
+   Button,
+   Select,
+   MenuItem,
+   FormControl,
+   InputLabel,
+   FormHelperText,
+   Typography,
+} from "@mui/material";
+import api from "../axiosConfig";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 
-function PostForm() {
-   // to do: create dropdown menu!
-   const [title, setTitle] = useState("");
-   const [content, setContent] = useState("");
-   const [timePeriod, setTimePeriod] = useState("");
-   const [genre, setGenre] = useState([]);
-   const [movie, setMovie] = useState("");
-   const [image, setImage] = useState(null);
+const PostFormSchema = Yup.object({
+   title: Yup.string().trim().required("Title is required"),
+   content: Yup.string().trim().required("Content is required"),
+   timePeriod: Yup.string().required("Time period is required"),
+   genre: Yup.array()
+      .min(1, "Select at least one genre")
+      .required("Genre is required"),
+   movie: Yup.string().trim().required("Movie is required"),
+});
 
+function PostForm() {
+   const [image, setImage] = useState(null);
    let navigate = useNavigate();
 
    const time_period_list = [
@@ -27,6 +42,7 @@ function PostForm() {
       "2010s",
       "2020s",
    ];
+
    const movie_genre_list = [
       "Action",
       "Romance",
@@ -40,36 +56,16 @@ function PostForm() {
       "Sci-fi",
    ];
 
-   const handleSubmit = async (e) => {
-      e.preventDefault();
-
-      // checking if fields are valid and filled
-      if (!title.trim()) return;
-      if (!content.trim()) return;
-      if (!timePeriod.trim()) return;
-      if (!movie.trim()) return;
+   const handleSubmit = async (values, { resetForm }) => {
       if (!image) {
          alert("Please upload an image.");
          return;
-      }
-      if (genre.length === 0) {
-         return;
-      } else {
-         for (let g of genre) {
-            if (!g.trim()) {
-               return;
-            }
-         }
       }
 
       try {
          const image_url = await uploadImage(image[0]); // uploading image to get url
          const data = {
-            title,
-            content,
-            timePeriod,
-            genre,
-            movie,
+            ...values,
             image_url,
          };
 
@@ -80,18 +76,14 @@ function PostForm() {
          alert("Post submitted successfully!");
 
          // reseting form
-         setTitle("");
-         setContent("");
-         setTimePeriod("");
-         setGenre([]);
-         setMovie("");
+         resetForm();
          setImage(null);
 
          // navigate back to home page
          navigate("/feed");
       } catch (error) {
          if (error.message === "Image size exceeds 5MB limit") {
-            alert(error.message);
+            setFieldError("image", error.message);
          } else {
             alert("Error submitting post.");
          }
@@ -99,18 +91,11 @@ function PostForm() {
       }
    };
 
-   const handleGenreChange = (e) => {
-      // since genre is a multi-select, we need to get the selected options and put them in an array
-      const selectedOptions = Array.from(e.target.selectedOptions).map(
-         (option) => option.value
-      );
-      setGenre(selectedOptions);
-   };
-
-   // uploading images to cloudinary
-   // changed from back to front since it is simpler and
-   // creates less issues since images aren't being redirected
-   // multiple times before uploading
+   /* uploading images to cloudinary
+    changed from back to front since it is simpler and
+    creates less issues since images aren't being redirected
+    multiple times before uploading 
+   */
    const uploadImage = async (image) => {
       // in future, add signed uploads
       const CLOUD_NAME = "dqmfnu7i7"; // name of cloudinary API
@@ -118,8 +103,8 @@ function PostForm() {
 
       formData.append("file", image);
 
-      // upload preset lets you choose settings when uploading,
-      // such as allowing unsigned uploads and uploading to a specific folder
+      /* upload preset lets you choose settings when uploading,
+      such as allowing unsigned uploads and uploading to a specific folder */
       formData.append("upload_preset", "fits-in-flicks");
 
       // checking image size to be less than 5MB
@@ -138,104 +123,116 @@ function PostForm() {
          return response.data.secure_url;
       } catch (error) {
          console.error("Error uploading image to Cloudinary:", error);
-         throw new Error("Failed to upload image", response.statusText);
+         throw new Error("Failed to upload image");
       }
    };
 
    return (
       <div>
-         <h2>Submit a Post!</h2>
-         <form onSubmit={handleSubmit}>
-            <div>
-               <label htmlFor='title'>
-                  <span>Title</span>
-               </label>
-               <input
-                  id='title'
-                  type='text'
-                  value={title}
-                  onChange={(e) => setTitle(e.target.value)}
-                  required
-               />
-            </div>
+         <Typography>Submit a Post!</Typography>
 
-            <div>
-               <label htmlFor='content'>
-                  <span>Content</span>
-               </label>
-               <textarea
-                  id='content'
-                  value={content}
-                  onChange={(e) => setContent(e.target.value)}
-                  required
-               ></textarea>
-            </div>
+         <Formik
+            initialValues={{
+               title: "",
+               content: "",
+               timePeriod: "",
+               genre: [],
+               movie: "",
+            }}
+            validationSchema={PostFormSchema}
+            onSubmit={handleSubmit}
+         >
+            {({ errors, touched, values, setFieldValue }) => (
+               <Form>
+                  <Field
+                     as={TextField}
+                     name='title'
+                     label='Title'
+                     error={touched.title && !!errors.title}
+                     helperText={touched.title && errors.title}
+                     fullWidth
+                  />
 
-            <div>
-               <label htmlFor='timePeriod'>
-                  <span>Time Period</span>
-               </label>
-               <select
-                  id='timePeriod'
-                  value={timePeriod}
-                  onChange={(e) => {
-                     setTimePeriod(e.target.value);
-                  }}
-                  required
-               >
-                  <option value='' disabled>
-                     Select a time period
-                  </option>
-                  {time_period_list.map((period) => (
-                     <option key={period} value={period}>
-                        {period}
-                     </option>
-                  ))}
-               </select>
+                  <Field
+                     as={TextField}
+                     name='content'
+                     label='Content'
+                     multiline
+                     rows={4}
+                     error={touched.content && !!errors.content}
+                     helperText={touched.content && errors.content}
+                     fullWidth
+                  />
 
-               <label htmlFor='genre'>
-                  <span>Genre</span>
-               </label>
-               <select
-                  id='genre'
-                  value={genre}
-                  onChange={handleGenreChange}
-                  required
-                  multiple
-               >
-                  {movie_genre_list.map((genre) => (
-                     <option key={genre} value={genre}>
-                        {genre}
-                     </option>
-                  ))}
-               </select>
+                  <FormControl
+                     fullWidth
+                     error={touched.timePeriod && !!errors.timePeriod}
+                  >
+                     <InputLabel>Time Period</InputLabel>
+                     <Field as={Select} name='timePeriod' label='Time Period'>
+                        <MenuItem value='' disabled>
+                           Select a time period
+                        </MenuItem>
+                        {time_period_list.map((period) => (
+                           <MenuItem key={period} value={period}>
+                              {period}
+                           </MenuItem>
+                        ))}
+                     </Field>
+                     {touched.timePeriod && errors.timePeriod && (
+                        <FormHelperText>{errors.timePeriod}</FormHelperText>
+                     )}
+                  </FormControl>
 
-               <label htmlFor='movie'>
-                  <span>Movie</span>
-               </label>
-               <input
-                  id='movie'
-                  type='text'
-                  value={movie}
-                  onChange={(e) => setMovie(e.target.value)}
-                  required
-               />
-            </div>
+                  <FormControl
+                     fullWidth
+                     error={touched.genre && !!errors.genre}
+                  >
+                     <InputLabel>Genre</InputLabel>
+                     <Field
+                        as={Select}
+                        name='genre'
+                        label='Genre'
+                        multiple
+                        value={values.genre}
+                        onChange={(e) => setFieldValue("genre", e.target.value)}
+                     >
+                        {movie_genre_list.map((genre) => (
+                           <MenuItem key={genre} value={genre}>
+                              {genre}
+                           </MenuItem>
+                        ))}
+                     </Field>
+                     {touched.genre && errors.genre && (
+                        <FormHelperText>{errors.genre}</FormHelperText>
+                     )}
+                  </FormControl>
 
-            <div>
-               <label htmlFor='image'>
-                  <span>Image</span>
-               </label>
-               <input
-                  id='image'
-                  type='file'
-                  accept='image/*'
-                  onChange={(e) => setImage(e.target.files)}
-               />
-            </div>
+                  <Field
+                     as={TextField}
+                     name='movie'
+                     label='Movie'
+                     error={touched.movie && !!errors.movie}
+                     helperText={touched.movie && errors.movie}
+                     fullWidth
+                  />
 
-            <button type='submit'>Submit</button>
-         </form>
+                  <FormControl fullWidth>
+                     <InputLabel shrink>Image *</InputLabel>
+                     <input
+                        type='file'
+                        accept='image/*'
+                        onChange={(e) => setImage(e.target.files)}
+                        required
+                     />
+                  </FormControl>
+
+                  <Button type='submit' variant='contained' fullWidth>
+                     Submit
+                  </Button>
+               </Form>
+            )}
+         </Formik>
       </div>
    );
 }
