@@ -1,9 +1,12 @@
+// file to config api calls with axios
+
 import axios from "axios";
 
 const api = axios.create({
    baseURL: "http://localhost:8000",
 });
 
+// adding token to headers for authenticated routes
 api.interceptors.request.use((config) => {
    const token = localStorage.getItem("token");
    if (token) {
@@ -12,6 +15,7 @@ api.interceptors.request.use((config) => {
    return config;
 });
 
+// remove token and go to homepage if unauthorized
 api.interceptors.response.use(
    (response) => response,
    (error) => {

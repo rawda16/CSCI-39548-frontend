@@ -123,15 +123,14 @@ function PostDetailPage() {
       }
    };
 
+   // uploading images to cloudinary
    const uploadImage = async (image) => {
-      // in future, add signed uploads
       const CLOUD_NAME = "dqmfnu7i7"; // name of cloudinary API
       const formData = new FormData();
 
       formData.append("file", image);
 
-      // upload preset lets you choose settings when uploading,
-      // such as allowing unsigned uploads and uploading to a specific folder
+      // set upload presets
       formData.append("upload_preset", "fits-in-flicks");
 
       // checking image size to be less than 5MB
@@ -156,10 +155,10 @@ function PostDetailPage() {
    return (
       <>
          <Stack
-            direction="row"
+            direction='row'
             spacing={2}
-            alignItems="center"
-            color="black"
+            alignItems='center'
+            color='black'
             sx={{
                mt: 3,
                mb: 2,
@@ -168,12 +167,12 @@ function PostDetailPage() {
                textDecoration: "none",
             }}
             component={RouterLink}
-            to="/feed"
-            variant="h2"
+            to='/feed'
+            variant='h2'
          >
             <MovieFilterIcon sx={{ fontSize: 100 }} />
             <Typography
-               variant="h2"
+               variant='h2'
                sx={{ display: "flex", justifyContent: "flex-start" }}
             >
                Fits in Flicks
@@ -196,15 +195,15 @@ function PostDetailPage() {
                }}
             >
                <Stack
-                  direction="row"
-                  justifyContent="space-between"
-                  width="100%"
+                  direction='row'
+                  justifyContent='space-between'
+                  width='100%'
                >
-                  <Typography variant="h5">{post.title}</Typography>
+                  <Typography variant='h5'>{post.title}</Typography>
                   {isAuthor && (
                      <Button
-                        variant="contained"
-                        color="error"
+                        variant='contained'
+                        color='error'
                         onClick={() => handleDelete(post.id)}
                      >
                         Delete
@@ -267,8 +266,8 @@ function PostDetailPage() {
                >
                   {post.genre.map((tag) => (
                      <Button
-                        variant="text"
-                        color="black"
+                        variant='text'
+                        color='black'
                         onClick={(e) => {
                            e.stopPropagation;
                            navigate(`/tags/genre/${tag}`);
@@ -279,8 +278,8 @@ function PostDetailPage() {
                      </Button>
                   ))}
                   <Button
-                     variant="text"
-                     color="black"
+                     variant='text'
+                     color='black'
                      onClick={() => navigate(`/tags/period/${post.timePeriod}`)}
                   >
                      {post.timePeriod}
@@ -295,7 +294,7 @@ function PostDetailPage() {
                >
                   {isAuthor && (
                      <Button
-                        variant="outlined"
+                        variant='outlined'
                         onClick={() => setEditing(true)}
                      >
                         Edit Post

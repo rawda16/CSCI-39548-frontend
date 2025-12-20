@@ -1,17 +1,12 @@
 import { useEffect, useState } from "react";
 import { LogOut, PostList } from "../components";
 import api from "..//axiosConfig";
-import { Box, Button, Typography } from "@mui/material";
-import { useNavigate } from "react-router-dom";
+import { Box } from "@mui/material";
 import MyProfile from "../components/MyProfile";
 import CreatePostButton from "../components/CreatePostButton";
 
 function PostsPage() {
-   // posts need to be in order from newest to oldest
-   const navigate = useNavigate();
-
    const [posts, setPosts] = useState([]);
-
    const [loggedIn, setLoggedIn] = useState(false);
 
    useEffect(() => {
@@ -36,6 +31,7 @@ function PostsPage() {
       fetchPosts();
    });
 
+   // handle delete post
    async function handleDelete(id) {
       try {
          await api.delete(`/post/${id}`);

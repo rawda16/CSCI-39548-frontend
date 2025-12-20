@@ -45,7 +45,7 @@ export default function RegisterForm() {
 
          const data = await response.json();
 
-         // If successful, you could navigate or save token
+         // If successful, navigate to login
          if (response.ok) {
             alert(data.message + "! Please log in.");
             navigate("/login");
