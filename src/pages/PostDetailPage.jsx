@@ -1,5 +1,6 @@
-import { use, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
+import { Link as RouterLink } from "react-router-dom";
 import api from "../axiosConfig";
 import { Button, IconButton, Typography } from "@mui/material";
 import { EditPost } from "../components";
@@ -155,8 +156,11 @@ function PostDetailPage() {
    return (
       <>
          <Typography
+            component={RouterLink}
+            to="/feed"
             variant="h2"
-            sx={{ display: "flex", justifyContent: "flex-start" }}
+            color="black"
+            sx={{ cursor: "pointer", textDecoration: "none" }}
          >
             Fits in Flicks
          </Typography>
