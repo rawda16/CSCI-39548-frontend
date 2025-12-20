@@ -10,7 +10,6 @@ const LoginSchema = Yup.object({
 });
 
 export default function LoginForm() {
-   const [message, setMessage] = useState("");
    const [loggedIn, setLoggedIn] = useState(false);
    const navigate = useNavigate();
 

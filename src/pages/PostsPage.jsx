@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { PostList } from "../components";
+import { LogOut, PostList } from "../components";
 import api from "..//axiosConfig";
 import { Box, Typography } from "@mui/material";
 
@@ -8,6 +8,17 @@ function PostsPage() {
    // rn it's oldest to newest
 
    const [posts, setPosts] = useState([]);
+
+   const [loggedIn, setLoggedIn] = useState(false);
+
+   useEffect(() => {
+      userIsLoggedIn();
+   }, []);
+
+   // check if the user is logged in to not show login
+   async function userIsLoggedIn() {
+      setLoggedIn(localStorage.getItem("user"));
+   }
 
    const fetchPosts = async () => {
       try {
@@ -34,6 +45,7 @@ function PostsPage() {
 
    return (
       <Box>
+         {loggedIn && <LogOut />}
          <PostList posts={posts} onDelete={handleDelete} />
       </Box>
    );
