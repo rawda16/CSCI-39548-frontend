@@ -183,10 +183,14 @@ function PostDetailPage() {
             >
                <Typography variant="h5">{post.title}</Typography>
                <Typography
-                  sx={{ fontWeight: "bold", textDecoration: "underline" }}
-                  variant="body1"
+                  sx={{
+                     fontWeight: "bold",
+                     textDecoration: "underline",
+                     cursor: "pointer",
+                  }}
+                  onClick={() => navigate(`/profile/${post.authorId}`)}
                >
-                  {post.author.username}
+                  @{post.author.username}
                </Typography>
                <div
                   style={{
@@ -247,10 +251,7 @@ function PostDetailPage() {
                   <Button
                      variant="text"
                      color="black"
-                     onClick={(e) => {
-                        e.stopPropagation;
-                        navigate(`/tags/period/${periodTag}`);
-                     }}
+                     onClick={() => navigate(`/tags/period/${post.timePeriod}`)}
                   >
                      {post.timePeriod}
                   </Button>

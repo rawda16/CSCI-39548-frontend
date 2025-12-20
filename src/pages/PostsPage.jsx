@@ -6,8 +6,7 @@ import { useNavigate } from "react-router-dom";
 import MyProfile from "../components/MyProfile";
 
 function PostsPage() {
-   // TO DO: posts need to be in order from newest to oldest
-   // rn it's oldest to newest
+   // posts need to be in order from newest to oldest
    const navigate = useNavigate();
 
    const [posts, setPosts] = useState([]);

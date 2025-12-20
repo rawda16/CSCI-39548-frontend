@@ -4,7 +4,7 @@ import api from "../axiosConfig";
 import { useNavigate } from "react-router-dom";
 
 function CommentSection({ postId }) {
-   const naviage = useNavigate();
+   const navigate = useNavigate();
    const [comments, setComments] = useState([]);
    const [newComment, setNewComment] = useState("");
 
@@ -77,13 +77,8 @@ function CommentSection({ postId }) {
                         fontWeight: "bold",
                         textDecoration: "underline",
                         cursor: "pointer",
-                        alignSelf: "flex-start",
                      }}
-                     variant="body1"
-                     onClick={(e) => {
-                        e.stopPropagation();
-                        navigate(`/profile/${authorId}`);
-                     }}
+                     onClick={() => navigate(`/profile/${comment.authorId}`)}
                   >
                      @{comment.author.username}
                   </Typography>
