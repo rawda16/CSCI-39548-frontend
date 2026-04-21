@@ -22,4 +22,4 @@ Final project front end
 
 # Demo
 
-- https://github.com/user-attachments/assets/cf0fc89d-eb01-4c1c-91c4-739e57af8a3c
+- https://youtu.be/rqyfTUd86fI
